@@ -5,53 +5,118 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 
-public class QuestionManager : MonoBehaviour
+public class QuestionManager
 {
-    private List<string> currQuestionList = new List<string>();
+    private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();
 
-    public void Add()
+    public static void SaveQuestionSet(string setName)
     {
-
+        GetSet(setName).Save();
     }
 
-    public void Remove(int index)
+    public static QuestionSet GetSet(string setName)
     {
-
-    }
-
-    public List<string> GetQuestions()
-    {
-        return currQuestionList;
-    }
-
-    public void Save(string fileName)
-    {
-        StreamWriter sw = new StreamWriter(fileName, true);
-        for (int i = 0; i < currQuestionList.Count; i++)
+        QuestionSet questionSet;
+        if (!questionDict.TryGetValue(setName, out questionSet))
         {
-            sw.Write(currQuestionList[i]);
+            questionSet = new QuestionSet(setName);
         }
 
-        sw.Close();
+        return questionSet;
     }
 
-    public void Load(string fileName)
+    public class QuestionSet
     {
-        if (!File.Exists(fileName))
+        private string fileName;
+        private List<Question> currQuestionList = new List<Question>();
+
+        public QuestionSet(string setName)
         {
-            Debug.Log("File didn't exist: " + fileName);
-            return; // No questions to load.
+            this.fileName = Application.persistentDataPath + "/setName";
+            this.Load();
         }
 
-        currQuestionList.Clear();
-        StreamReader reader = new StreamReader(fileName);
-
-        while (!reader.EndOfStream)
+        public List<Question> GetQuestions()
         {
-            string question = reader.ReadLine();
+            return currQuestionList;
+        }
+
+        public void Add(Question question)
+        {
             currQuestionList.Add(question);
         }
 
-        reader.Close();
+        public void Remove(int uniqueID)
+        {
+            for (int i = 0; i < currQuestionList.Count; i++)
+            {
+                if (currQuestionList[i].uniqueID == uniqueID)
+                {
+                    currQuestionList.RemoveAt(i);
+                    return;
+                }
+            }
+
+            Debug.LogError(this.GetType().FullName + ": Couldn't find unique ID (" + uniqueID + ").");
+        }
+
+        public void Save()
+        {
+            StreamWriter sw = new StreamWriter(fileName, false);
+
+            for (int i = 0; i < currQuestionList.Count; i++)
+            {
+                sw.WriteLine(currQuestionList[i].value);
+            }
+
+            sw.Close();
+        }
+
+        public void Load()
+        {
+            if (!File.Exists(fileName))
+            {
+                Debug.Log("File didn't exist: " + fileName);
+                return; // No questions to load.
+            }
+
+            currQuestionList.Clear();
+            StreamReader reader = new StreamReader(fileName);
+
+            while (!reader.EndOfStream)
+            {
+                string question = reader.ReadLine();
+                Add(new Question(question));
+            }
+
+            reader.Close();
+        }
+
+        public void Delete()
+        {
+            if (!File.Exists(fileName))
+            {
+                Debug.Log("File didn't exist: " + fileName);
+                return; // No questions to load.
+            }
+
+            File.Delete(fileName);
+            currQuestionList.Clear();
+        }
+    }
+
+    public class Question
+    {
+        private static int currID = 0;
+
+        public string value;
+        public int uniqueID;
+
+        public Question(string value)
+        {
+            this.value = value;
+            uniqueID = currID;
+            currID++;
+        }
     }
 }
