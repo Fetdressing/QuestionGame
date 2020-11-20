@@ -12,6 +12,9 @@ public class QuestionHandlerUI : MonoBehaviour
     private RectTransform questionRoot;
 
     [SerializeField]
+    private Dropdown questionSetDropdown;
+
+    [SerializeField]
     private Button addQuestionButton;
 
     [SerializeField]
@@ -32,7 +35,8 @@ public class QuestionHandlerUI : MonoBehaviour
         saveButton.onClick.AddListener(() => { Save(); });
         clearSetButton.onClick.AddListener(() => { ClearSet(); });
 
-        QuestionManager.QuestionSet questionSet = QuestionManager.GetSet("Set1");
+        UpdateQuestionSetDropdown();
+        QuestionManager.QuestionSet questionSet = QuestionManager.GetSet(QuestionManager.GetAllQuestionSetKeys()[0]);
         Set(questionSet);
     }
 
@@ -46,6 +50,29 @@ public class QuestionHandlerUI : MonoBehaviour
         }
     }
 
+    private void AddSet()
+    {
+
+    }
+
+    private void RemoveCurrentSet()
+    {
+        if (!CanRemoveCurrentSet())
+        {
+            return;
+        }
+
+        currSet.Delete();
+        ClearQuestionGraphics();
+        UpdateQuestionSetDropdown();
+    }
+
+    private bool CanRemoveCurrentSet()
+    {
+        return currSet != null && QuestionManager.GetAllQuestionSetKeys().Count > 1;
+    }
+
+    #region HandleSet
     private void Save()
     {
         if (currSet == null)
@@ -68,7 +95,6 @@ public class QuestionHandlerUI : MonoBehaviour
         QuestionManager.Question newQuestion = new QuestionManager.Question("New Question...");
         currSet.Add(newQuestion);
         AddQuestionGraphics(newQuestion);
-
     }
 
     private void RemoveQuestion(QuestionUI questionUI)
@@ -91,12 +117,20 @@ public class QuestionHandlerUI : MonoBehaviour
             return;
         }
 
-        currSet.Delete();
+        currSet.Clear();
         ClearQuestionGraphics();
     }
-
+    #endregion
 
     #region Graphics
+
+    private void UpdateQuestionSetDropdown()
+    {
+        questionSetDropdown.ClearOptions();
+        List<string> questionSetKeyList = QuestionManager.GetAllQuestionSetKeys();
+        questionSetDropdown.AddOptions(questionSetKeyList);
+    }
+
     private void AddQuestionGraphics(QuestionManager.Question question)
     {
         GameObject ob = Instantiate(questionPrefab.gameObject);
