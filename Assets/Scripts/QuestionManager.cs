@@ -12,60 +12,54 @@ public class QuestionManager
 
     private static bool isInit = false;
 
-
-    public static List<QuestionSet> GetAllQuestionSets()
+    public static List<string> GetAllSetNames()
     {
         TryInit();
-        List<QuestionSet> allSetList = new List<QuestionSet>();
+        List<string> names = new List<string>();
         foreach (string key in questionDict.Keys)
         {
             QuestionSet questionSet;
             if (questionDict.TryGetValue(key, out questionSet))
             {
-                allSetList.Add(questionSet);
-            }
-            else
-            {
-                Debug.LogError("QuestionSet-Key had null set. (" + key + ")");
+                names.Add(questionSet.GetDisplayName());
             }
         }
 
-        return allSetList;
-    }
-
-    public static List<string> GetAllQuestionSetKeys()
-    {
-        TryInit();
-        List<string> keys = new List<string>();
-        foreach (string key in questionDict.Keys)
-        {
-            keys.Add(key);
-        }
-
-        return keys;
+        return names;
     }
 
     public static QuestionSet GetSet(string setName)
     {
         TryInit();
-        QuestionSet questionSet;
-        if (questionDict.TryGetValue(setName, out questionSet))
+
+        foreach (string key in questionDict.Keys)
         {
-            return questionSet;
-        }
+            QuestionSet questionSet;
+            if (questionDict.TryGetValue(key, out questionSet))
+            {
+                if (string.Equals(questionSet.GetDisplayName(), setName))
+                {
+                    return questionSet;
+                }
+            }
+        }        
 
         return null;
     }
 
-    public static void AddSet(string setName)
+    public static QuestionSet AddSet(string setName)
     {
-        if (GetSet(setName) != null)
+        string fileName = "S" + Random.Range(0, 1000000).ToString();
+        if (GetSet(fileName) != null)
         {
-            AddSet(setName + "_x"); // Make sure we don't add anything of the same name.
+            return AddSet(setName); // Make sure we don't add anything of the same name.
         }
         else
         {
-            questionDict.Add(setName, new QuestionSet(setName));
+            QuestionSet questionSet = new QuestionSet(fileName);
+            questionSet.SetDisplayName(setName);
+            questionDict.Add(fileName, questionSet);
+            return questionSet;
         }
     }
 
@@ -77,6 +71,7 @@ public class QuestionManager
         }
     }
 
+    #region Private
     private static void TryInit()
     {
         if (isInit)
@@ -119,18 +114,30 @@ public class QuestionManager
     {
         return Application.persistentDataPath + "/" + questionSetFolderName; ;
     }
+    #endregion
 
     public class QuestionSet
     {
+        private string displayName;
         private string keyName;
         private string fileName;
         private List<Question> currQuestionList = new List<Question>();
 
-        public QuestionSet(string setName)
-        {
-            this.keyName = setName;
-            this.fileName = GetDirectoryPath() + "/" + setName + ".qs";
+        public QuestionSet(string fileName)
+        {            
+            this.keyName = fileName;
+            this.fileName = GetDirectoryPath() + "/" + fileName + ".qs";
             this.Load();
+        }
+
+        public void SetDisplayName(string name)
+        {
+            this.displayName = name;
+        }
+
+        public string GetDisplayName()
+        {
+            return displayName;
         }
 
         public List<Question> GetQuestions()
@@ -161,6 +168,8 @@ public class QuestionManager
         {
             StreamWriter sw = new StreamWriter(fileName, false);
 
+            sw.WriteLine(displayName);
+
             for (int i = 0; i < currQuestionList.Count; i++)
             {
                 sw.WriteLine(currQuestionList[i].value);
@@ -179,6 +188,8 @@ public class QuestionManager
 
             currQuestionList.Clear();
             StreamReader reader = new StreamReader(fileName);
+
+            displayName = reader.ReadLine();
 
             while (!reader.EndOfStream)
             {

@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
+using TMPro;
 
-public class QuestionHandlerUI : MonoBehaviour
+public class QuestionDisplayerUI : MonoBehaviour
 {
     [Header("Scene Refs")]
 
@@ -12,16 +12,7 @@ public class QuestionHandlerUI : MonoBehaviour
     private RectTransform questionRoot;
 
     [SerializeField]
-    private Dropdown questionSetDropdown;
-
-    [SerializeField]
     private Button addQuestionButton;
-
-    [SerializeField]
-    private Button saveButton;
-
-    [SerializeField]
-    private Button clearSetButton;
 
     [Header("Prefabs")]
     [SerializeField]
@@ -32,56 +23,20 @@ public class QuestionHandlerUI : MonoBehaviour
     private void Awake()
     {
         addQuestionButton.onClick.AddListener(() => { AddQuestion(); });
-        saveButton.onClick.AddListener(() => { Save(); });
-        clearSetButton.onClick.AddListener(() => { ClearSet(); });
-
-        UpdateQuestionSetDropdown();
-        QuestionManager.QuestionSet questionSet = QuestionManager.GetSet(QuestionManager.GetAllQuestionSetKeys()[0]);
-        Set(questionSet);
     }
 
-    private void Set(QuestionManager.QuestionSet questionSet)
+    public void SetCurrentSet(QuestionManager.QuestionSet questionSet)
     {
         currSet = questionSet;
-
-        for (int i = 0; i < questionSet.GetQuestions().Count; i++)
-        {
-            AddQuestionGraphics(questionSet.GetQuestions()[i]);
-        }
-    }
-
-    private void AddSet()
-    {
-
-    }
-
-    private void RemoveCurrentSet()
-    {
-        if (!CanRemoveCurrentSet())
-        {
-            return;
-        }
-
-        currSet.Delete();
         ClearQuestionGraphics();
-        UpdateQuestionSetDropdown();
-    }
 
-    private bool CanRemoveCurrentSet()
-    {
-        return currSet != null && QuestionManager.GetAllQuestionSetKeys().Count > 1;
-    }
-
-    #region HandleSet
-    private void Save()
-    {
-        if (currSet == null)
+        if (questionSet != null)
         {
-            Debug.LogError(this.GetType().FullName + ": Null set.");
-            return;
+            for (int i = 0; i < questionSet.GetQuestions().Count; i++)
+            {
+                AddQuestionGraphics(questionSet.GetQuestions()[i]);
+            }
         }
-
-        currSet.Save();
     }
 
     private void AddQuestion()
@@ -109,27 +64,8 @@ public class QuestionHandlerUI : MonoBehaviour
         RemoveQuestionGraphics(questionUI);
     }
 
-    private void ClearSet()
-    {
-        if (currSet == null)
-        {
-            Debug.LogError(this.GetType().FullName + ": Null set.");
-            return;
-        }
-
-        currSet.Clear();
-        ClearQuestionGraphics();
-    }
-    #endregion
-
     #region Graphics
 
-    private void UpdateQuestionSetDropdown()
-    {
-        questionSetDropdown.ClearOptions();
-        List<string> questionSetKeyList = QuestionManager.GetAllQuestionSetKeys();
-        questionSetDropdown.AddOptions(questionSetKeyList);
-    }
 
     private void AddQuestionGraphics(QuestionManager.Question question)
     {
@@ -146,7 +82,7 @@ public class QuestionHandlerUI : MonoBehaviour
         }
     }
 
-    private void ClearQuestionGraphics()
+    public void ClearQuestionGraphics()
     {
         foreach (Transform t in questionRoot.GetComponentsInChildren<Transform>())
         {
