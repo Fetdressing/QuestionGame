@@ -543,11 +543,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5798d02e8875b42bd72dcc9b91c82e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton:
-    button: {fileID: 414526699}
+  buttons:
+  - button: {fileID: 414526699}
     sceneGoToName: PlayScene
-  editButton:
-    button: {fileID: 1173775993}
+  - button: {fileID: 1173775993}
     sceneGoToName: EditScene
 --- !u!1 &898713578
 GameObject:

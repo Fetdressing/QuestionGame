@@ -7,18 +7,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+public class SceneButtonHandler : MonoBehaviour
 {
     [SerializeField]
-    private ButtonScene playButton;
-
-    [SerializeField]
-    private ButtonScene editButton;
+    private ButtonScene[] buttons;
 
     private void Awake()
     {
-        playButton.Init();
-        editButton.Init();
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].Init();
+        }
     }
 
     [System.Serializable]
