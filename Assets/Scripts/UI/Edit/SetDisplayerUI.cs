@@ -29,7 +29,7 @@ namespace Edit
         private void Awake()
         {
             QuestionManager.QuestionSet questionSet;
-            clearSetButton.onClick.AddListener(() => { ClearCurrent(); });
+            clearSetButton.onClick.AddListener(() => { PromptClearCurrent(); });
             questionSetDropdown.onValueChanged.AddListener(delegate
             {
                 if (questionSetDropdown.value >= questionSetDropdown.options.Count - 1)
@@ -56,7 +56,7 @@ namespace Edit
 
         private QuestionManager.QuestionSet AddSet()
         {
-            return QuestionManager.AddSet("New Set");
+            return QuestionManager.AddSet("MyNewSet");
         }
 
         private void SetCurrent(QuestionManager.QuestionSet questionSet, int dropdownIndex)
@@ -78,7 +78,7 @@ namespace Edit
             currSet.Save();
         }
 
-        private void ClearCurrent()
+        private void PromptClearCurrent()
         {
             if (currSet == null)
             {
@@ -86,20 +86,28 @@ namespace Edit
                 return;
             }
 
-            currSet.Clear();
-            questionDisplay.ClearQuestionGraphics();
+            ConfirmScreen.Create().Set("Are you sure you wish to clear this set?",
+               confirm: () =>
+               {
+                   currSet.Clear();
+                   questionDisplay.ClearQuestionGraphics();
+               });           
         }
 
-        private void RemoveCurrent()
+        private void PromptRemoveCurrent()
         {
             if (!CanRemoveCurrent())
             {
                 return;
             }
 
-            currSet.Delete();
-            UpdateDropdown();
-            SetCurrent(null, 0);
+            ConfirmScreen.Create().Set("Are you sure you wish to remove this set?",
+                confirm: () =>
+                {
+                    currSet.Delete();
+                    UpdateDropdown();
+                    SetCurrent(null, 0);
+                });
         }
 
         private bool CanRemoveCurrent()

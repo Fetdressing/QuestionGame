@@ -62,8 +62,12 @@ namespace Edit
                 return;
             }
 
-            currSet.Remove(questionUI.Question.uniqueID);
-            RemoveQuestionGraphics(questionUI);
+            ConfirmScreen.Create().Set("Are you sure you wish to remove this question?",
+               confirm: () =>
+               {
+                   currSet.Remove(questionUI.Question.uniqueID);
+                   RemoveQuestionGraphics(questionUI);
+               });
         }
 
         #region Graphics

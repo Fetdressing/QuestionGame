@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ConfirmScreen : MonoBehaviour
+public class ConfirmScreen : UIBase
 {
     [SerializeField]
     private Button confirmButton;
@@ -16,7 +16,12 @@ public class ConfirmScreen : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI displayText;
 
-    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null)
+    public static ConfirmScreen Create()
+    {
+        return (ConfirmScreen)UIUtil.Spawn(UIUtil.UIType.ConfirmScreen);
+    }
+
+    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null, bool useCancel = true)
     {
         if (string.IsNullOrEmpty(displayText))
         {
@@ -28,25 +33,20 @@ public class ConfirmScreen : MonoBehaviour
             this.displayText.text = displayText;
         }
 
-        confirmButton.gameObject.SetActive(confirm != null);
-        cancelButton.gameObject.SetActive(cancel != null);
+        confirmButton.gameObject.SetActive(true);
+        cancelButton.gameObject.SetActive(cancel != null || useCancel);
 
-        confirmButton.onClick.AddListener(() => { confirm.Invoke(); OnConfirm(); });
-        cancelButton.onClick.AddListener(() => { cancel.Invoke(); OnCancel(); });
+        confirmButton.onClick.AddListener(() => { confirm?.Invoke(); OnConfirm(); });
+        cancelButton.onClick.AddListener(() => { cancel?.Invoke(); OnCancel(); });
     }
 
-    protected void OnConfirm()
+    protected virtual void OnConfirm()
     {
-        DestroyScreen();
+        DestroySelf();
     }
 
-    protected void OnCancel()
+    protected virtual void OnCancel()
     {
-        DestroyScreen();
-    }
-
-    protected void DestroyScreen()
-    {
-        Destroy(this.gameObject);
+        DestroySelf();
     }
 }
