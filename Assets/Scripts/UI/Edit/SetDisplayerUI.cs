@@ -122,12 +122,24 @@ namespace Edit
             return currSet != null && QuestionManager.GetAllSetNames().Count > 1;
         }
 
-        private void UpdateDropdown()
+        private void UpdateDropdown(string selectedName = "")
         {
             questionSetDropdown.ClearOptions();
             List<string> questionSetKeyList = QuestionManager.GetAllSetNames();
             questionSetDropdown.AddOptions(questionSetKeyList);
             questionSetDropdown.AddOptions(new List<string>() { "New Set..." });
+
+            if (!string.IsNullOrEmpty(selectedName))
+            {
+                for (int i = 0; i < questionSetDropdown.options.Count; i++)
+                {
+                    if (string.Equals(questionSetDropdown.options[i].text, selectedName))
+                    {
+                        questionSetDropdown.SetValueWithoutNotify(i);
+                        break;
+                    }
+                }                
+            }
         }
 
         private void OnSetNameChanged(string newName)
@@ -139,7 +151,7 @@ namespace Edit
             }
 
             currSet.SetDisplayName(newName);
-            UpdateDropdown();
+            UpdateDropdown(newName);
         }
 
         #region Autosaving

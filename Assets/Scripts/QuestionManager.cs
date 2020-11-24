@@ -58,6 +58,7 @@ public class QuestionManager
         {
             QuestionSet questionSet = new QuestionSet(fileName);
             questionSet.SetDisplayName(setName);
+            questionSet.Add(new Question("Would you rather...")); // Add a default question.
             questionDict.Add(fileName, questionSet);
             return questionSet;
         }
