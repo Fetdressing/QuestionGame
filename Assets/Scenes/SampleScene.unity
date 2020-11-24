@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 482158251}
   - component: {fileID: 482158250}
   m_Layer: 5
-  m_Name: Button_Add
+  m_Name: Button_AddQuestion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1476,7 +1476,7 @@ GameObject:
   - component: {fileID: 1009604386}
   - component: {fileID: 1009604385}
   m_Layer: 5
-  m_Name: Button_Save
+  m_Name: Button_SaveSet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1594,7 +1594,7 @@ GameObject:
   - component: {fileID: 1082449148}
   - component: {fileID: 1082449146}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: InputField_SetName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2754,7 +2754,7 @@ GameObject:
   - component: {fileID: 2139983222}
   - component: {fileID: 2139983220}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Dropdown_SetSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
