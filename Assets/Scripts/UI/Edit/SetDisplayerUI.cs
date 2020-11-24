@@ -26,6 +26,8 @@ namespace Edit
         [SerializeField]
         private Button clearSetButton;
 
+        private IEnumerator autosaveIE = null;
+
         private void Awake()
         {
             QuestionManager.QuestionSet questionSet;
@@ -47,7 +49,7 @@ namespace Edit
             });
 
             questionSetNameInputField.onSubmit.AddListener(OnSetNameChanged);
-            saveButton.onClick.AddListener(() => { SaveCurrent(); });
+            saveButton?.onClick.AddListener(() => { SaveCurrent(); });
 
             UpdateDropdown();
             questionSet = QuestionManager.GetSet(QuestionManager.GetAllSetNames()[0]);
@@ -61,6 +63,11 @@ namespace Edit
 
         private void SetCurrent(QuestionManager.QuestionSet questionSet, int dropdownIndex)
         {
+            if (currSet != null)
+            {
+                SaveCurrent(); // Autosave.
+            }
+
             currSet = questionSet;
             questionSetDropdown.SetValueWithoutNotify(dropdownIndex);
             questionSetNameInputField.SetTextWithoutNotify(questionSet.GetDisplayName());
@@ -134,5 +141,58 @@ namespace Edit
             currSet.SetDisplayName(newName);
             UpdateDropdown();
         }
+
+        #region Autosaving
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!focus)
+            {
+                if (currSet != null)
+                {
+                    SaveCurrent(); // Autosave.
+                }
+
+                SetAutoSave(false);
+            }
+            else
+            {
+                SetAutoSave(true);
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (currSet != null)
+            {
+                SaveCurrent(); // Autosave.
+            }
+        }
+
+        private void SetAutoSave(bool active)
+        {
+            if (autosaveIE != null)
+            {
+                StopCoroutine(autosaveIE);
+            }
+
+            if (active)
+            {
+                autosaveIE = AutoSaveIE();
+                StartCoroutine(autosaveIE);
+            }
+        }
+
+        private IEnumerator AutoSaveIE()
+        {
+            while (this != null)
+            {
+                yield return new WaitForSeconds(15);
+                if (currSet != null)
+                {
+                    SaveCurrent();
+                }
+            }
+        }
+        #endregion
     }
 }
