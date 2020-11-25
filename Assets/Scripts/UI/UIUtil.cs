@@ -28,6 +28,16 @@ public class UIUtil : MonoBehaviour
                 DontDestroyOnLoad(instance.gameObject);
             }
 
+            UIUtil[] potInstances = FindObjectsOfType<UIUtil>();
+
+            for (int i = potInstances.Length - 1; i >= 0; i--)
+            {
+                if (potInstances[i] != instance)
+                {
+                    Destroy(potInstances[i].gameObject);
+                }
+            }
+
             return instance;
         }
     }

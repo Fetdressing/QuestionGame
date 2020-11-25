@@ -12,21 +12,47 @@ namespace Play
         private string pName;
 
         [SerializeField]
-        private TextMeshProUGUI nameDisplay;
+        private UnityInputFieldInterface nameInput;
 
         [SerializeField]
         private Button removeButton;
 
-        public void Set(string name, System.Action<string> onRemove)
-        {
-            this.pName = name;
-            this.nameDisplay.text = name;
+        private System.Action<string, string, PlayerInterface> onNameChanged;
+        private System.Action<string> onRemove;
 
-            removeButton.onClick.AddListener(() =>
-            {
-                onRemove.Invoke(this.pName);
-                DestroySelf();
-            });
+        /// <summary>
+        /// Sets this.
+        /// </summary>
+        /// <param name="name">The name of this.</param>
+        /// <param name="onNameChanged">The first string representing the new name and the second one the old one.</param>
+        /// <param name="onRemove">On removing this.</param>
+        public void Set(string name, System.Action<string, string, PlayerInterface> onNameChanged, System.Action<string> onRemove)
+        {
+            this.SetName(name);
+
+            this.onNameChanged = onNameChanged;
+            this.onRemove = onRemove;
+
+            this.nameInput.onEndEdit.AddListener(OnNameChanged);
+            this.removeButton.onClick.AddListener(OnRemove);
+        }
+
+        public void SetName(string newName)
+        {
+            this.pName = newName;
+            this.nameInput.SetTextWithoutNotify(newName);
+        }
+
+        private void OnNameChanged(string newName)
+        {
+            onNameChanged.Invoke(newName, this.pName, this);
+            this.pName = newName;
+        }
+
+        private void OnRemove()
+        {
+            onRemove.Invoke(this.pName);
+            DestroySelf();
         }
     }
 }

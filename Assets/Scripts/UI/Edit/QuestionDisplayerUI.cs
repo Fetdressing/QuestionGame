@@ -18,7 +18,7 @@ namespace Edit
 
         [Header("Prefabs")]
         [SerializeField]
-        private QuestionUI questionPrefab;
+        private QuestionEditInterface questionPrefab;
 
         private QuestionManager.QuestionSet currSet;
 
@@ -54,7 +54,7 @@ namespace Edit
             AddQuestionGraphics(newQuestion);
         }
 
-        private void RemoveQuestion(QuestionUI questionUI)
+        private void RemoveQuestion(QuestionEditInterface questionUI)
         {
             if (currSet == null)
             {
@@ -82,11 +82,11 @@ namespace Edit
         private void AddQuestionGraphics(QuestionManager.Question question)
         {
             GameObject ob = Instantiate(questionPrefab.gameObject);
-            ob.GetComponent<QuestionUI>().Set(question, RemoveQuestion);
+            ob.GetComponent<QuestionEditInterface>().Set(question, RemoveQuestion);
             ob.transform.SetParent(questionRoot);
         }
 
-        private void RemoveQuestionGraphics(QuestionUI questionUI)
+        private void RemoveQuestionGraphics(QuestionEditInterface questionUI)
         {
             if (questionUI != null)
             {

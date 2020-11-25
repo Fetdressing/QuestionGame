@@ -7,30 +7,20 @@ using UnityEngine.UI;
 
 namespace Edit
 {
-    public class QuestionUI : MonoBehaviour
+    public class QuestionEditInterface : QuestionInterface
     {
-        private QuestionManager.Question question;
-
         [SerializeField]
-        private InputField questionInput;
+        private UnityInputFieldInterface questionInput;
 
         [SerializeField]
         private Button removeButton;
 
-        public void Set(QuestionManager.Question question, System.Action<QuestionUI> removeCallback)
+        public void Set(QuestionManager.Question question, System.Action<QuestionEditInterface> removeCallback)
         {
-            this.question = question;
+            this.Set(question);
             this.questionInput.SetTextWithoutNotify(question.value);
             this.questionInput.onValueChanged.AddListener((newValue) => { this.question.value = newValue; });
             this.removeButton.onClick.AddListener(() => { removeCallback.Invoke(this); });
-        }
-
-        public QuestionManager.Question Question
-        {
-            get
-            {
-                return this.question;
-            }
         }
     }
 }

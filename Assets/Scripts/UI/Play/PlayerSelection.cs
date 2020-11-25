@@ -19,14 +19,22 @@ namespace Play
         private Button addPlayerButton;
 
         [SerializeField]
+        private Button clearPlayersButton;
+
+        [SerializeField]
         private string[] randomNamePool;
 
 
-        private HashSet<string> activePlayers;
+        private HashSet<string> activePlayers = new HashSet<string>();
 
         private void Awake()
         {
             addPlayerButton.onClick.AddListener(AddPlayer);
+
+            for (int i = 0; i < 2; i++)
+            {
+                AddPlayer();
+            }
         }
 
         private void AddPlayer()
@@ -54,7 +62,23 @@ namespace Play
 
             activePlayers.Add(nameToUse);
             GameObject ob = Instantiate(pInterfacePrefab.gameObject);
-            ob.GetComponent<PlayerInterface>().Set(nameToUse, RemovePlayer);
+            ob.GetComponent<PlayerInterface>().Set(nameToUse, OnRenamePlayer, RemovePlayer);
+            ob.transform.SetParent(pInterfaceHolder);
+        }
+
+        private void OnRenamePlayer(string newName, string oldName, PlayerInterface pInterface)
+        {
+            if (activePlayers.Contains(newName))
+            {
+                ConfirmScreen.Create().Set("Invalid name, it already existed. Reverting back...", useCancel: false);
+                // The new name already exists.
+                pInterface.SetName(oldName); // Revert back name change.
+            }
+            else
+            {
+                activePlayers.Remove(oldName);
+                activePlayers.Add(newName);
+            }
         }
 
         private void RemovePlayer(string name)

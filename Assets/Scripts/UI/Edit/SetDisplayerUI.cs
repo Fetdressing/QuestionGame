@@ -18,7 +18,7 @@ namespace Edit
         private Dropdown questionSetDropdown;
 
         [SerializeField]
-        private TMP_InputField questionSetNameInputField;
+        private UnityInputFieldInterface questionSetNameInputField;
 
         [SerializeField]
         private Button saveButton;
@@ -48,7 +48,7 @@ namespace Edit
                 }
             });
 
-            questionSetNameInputField.onSubmit.AddListener(OnSetNameChanged);
+            questionSetNameInputField.onEndEdit.AddListener(OnSetNameChanged);
             saveButton?.onClick.AddListener(() => { SaveCurrent(); });
 
             UpdateDropdown();
