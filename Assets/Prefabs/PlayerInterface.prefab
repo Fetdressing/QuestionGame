@@ -419,7 +419,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   onClickSound: UI_Click
-  clickForce: 0.6
+  clickForce: 0.1
   clickApplyChildren: 0
   clickApplyTargetGraphic: 1
   children:

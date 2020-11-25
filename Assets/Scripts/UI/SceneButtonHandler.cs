@@ -29,6 +29,9 @@ public class SceneButtonHandler : MonoBehaviour
         [SerializeField]
         private string sceneGoToName;
 
+        [SerializeField]
+        private string prompt = null;
+
         public void Init()
         {
             button?.onClick.AddListener(MoveToScene);
@@ -36,7 +39,16 @@ public class SceneButtonHandler : MonoBehaviour
 
         private void MoveToScene()
         {
-            SceneManager.LoadScene(sceneGoToName, LoadSceneMode.Single);
+            System.Action confirm = () => { SceneManager.LoadScene(sceneGoToName, LoadSceneMode.Single); };
+
+            if (!string.IsNullOrEmpty(prompt))
+            {
+                ConfirmScreen.Create().Set(prompt, confirm);
+            }
+            else
+            {
+                confirm.Invoke();
+            }            
         }
     }
 }
