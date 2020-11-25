@@ -45,6 +45,11 @@ namespace Play
 
         private void OnNameChanged(string newName)
         {
+            if (string.Equals(newName, this.pName))
+            {
+                return;
+            }
+
             onNameChanged.Invoke(newName, this.pName, this);
             this.pName = newName;
         }

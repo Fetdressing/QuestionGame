@@ -5,12 +5,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
-/// Used for interfacing with <see cref="InputField"/>.
+/// Used for interfacing with <see cref="Button"/>.
 /// </summary>
-public class UnityInputFieldInterface : UnityEngine.UI.InputField
+public class UnityButtonInterface : UnityEngine.UI.Button
 {
     /// <summary>
     /// Sound to play when clicking the object.
@@ -22,7 +21,7 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
     /// The click force.
     /// </summary>
     [SerializeField]
-    private float clickForce = 0.6f;
+    private float clickForce = 0.3f;
 
     /// <summary>
     /// Whether to apply click effect on children or not.
@@ -60,37 +59,6 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
     }
 
     /// <summary>
-    /// On select.
-    /// </summary>
-    /// <param name="eventData">The event data.</param>
-    public override void OnSelect(BaseEventData eventData)
-    {
-        base.OnSelect(eventData);
-        this.OnClick();
-    }
-
-    /// <summary>
-    /// On deselect.
-    /// </summary>
-    /// <param name="eventData">The event data.</param>
-    public override void OnDeselect(BaseEventData eventData)
-    {
-        base.OnDeselect(eventData);
-        this.OnClick();
-    }
-
-    /// <summary>
-    /// Sets whether this should be interactable or not.
-    /// </summary>
-    /// <param name="interactable">True to be interactable.</param>
-    public void SetInteractable(bool interactable)
-    {
-        this.enabled = interactable;
-        Color targetCol = this.targetGraphic.color;
-        this.targetGraphic.color = new Color(targetCol.r, targetCol.g, targetCol.b, interactable ? 1f : 0.3f);
-    }
-
-    /// <summary>
     /// On clicking button.
     /// </summary>
     protected void OnClick()
@@ -101,6 +69,14 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
         }
 
         SetTargetGraphicScale(1);
+    }
+
+    /// <summary>
+    /// On awake.
+    /// </summary>
+    protected override void Awake()
+    {
+        this.onClick.AddListener(OnClick);
     }
 
     /// <summary>
@@ -122,34 +98,6 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
         children = Utility.GetFirstLevelChildren(this.transform).ToArray();
     }
 #endif
-
-    /// <summary>
-    /// On application changed focus.
-    /// </summary>
-    /// <param name="focus">The new focus.</param>
-    private void OnApplicationFocus(bool focus)
-    {
-        if (Application.isPlaying && this.gameObject.activeInHierarchy && this.enabled)
-        {
-            // Leaving touch screen code here because we might need it soon.
-            ////TouchScreenKeyboard.Status currStatus;
-
-            ////if (this.touchScreenKeyboard != null)
-            ////{
-            ////    currStatus = this.touchScreenKeyboard.status;
-            ////}
-            ////else
-            ////{
-            ////    currStatus = TouchScreenKeyboard.Status.Canceled;
-            ////}
-
-            if (focus)
-            {
-                // Keyboard stopped being visible, invoke that we have deselected.
-                this.OnDeselect(new BaseEventData(EventSystem.current));
-            }
-        }
-    }
 
     /// <summary>
     /// Sets the target graphic scale.
@@ -175,8 +123,8 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
     /// <summary>
     /// Class for drawing the new button.
     /// </summary>
-    [CustomEditor(typeof(UnityInputFieldInterface))]
-    public class ButtonEditorDraw : UnityEditor.UI.InputFieldEditor
+    [CustomEditor(typeof(UnityButtonInterface))]
+    public class ButtonEditorDraw : UnityEditor.UI.ButtonEditor
     {
         /// <summary>
         /// On drawing UI.
@@ -184,7 +132,7 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            UnityInputFieldInterface targetInterface = (UnityInputFieldInterface)target;
+            UnityButtonInterface targetInterface = (UnityButtonInterface)target;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("clickApplyTargetGraphic"), new GUIContent("Click Apply Target", "Whether to apply click effect to target graphic or not."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("clickApplyChildren"), new GUIContent("Click Apply Children", "Whether to apply click effect to children or not."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("onClickSound"), new GUIContent("Click sound", "Sound to play when clicked."));

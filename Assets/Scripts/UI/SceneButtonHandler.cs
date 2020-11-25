@@ -31,7 +31,7 @@ public class SceneButtonHandler : MonoBehaviour
 
         public void Init()
         {
-            button.onClick.AddListener(MoveToScene);
+            button?.onClick.AddListener(MoveToScene);
         }
 
         private void MoveToScene()
