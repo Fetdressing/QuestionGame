@@ -70,6 +70,7 @@ namespace Play
             GameObject ob = Instantiate(pInterfacePrefab.gameObject);
             ob.GetComponent<PlayerInterface>().Set(nameToUse, OnRenamePlayer, RemovePlayer);
             ob.transform.SetParent(pInterfaceHolder);
+            ob.transform.localScale = Vector3.one;
         }
 
         private void OnRenamePlayer(string newName, string oldName, PlayerInterface pInterface)

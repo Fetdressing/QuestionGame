@@ -28,6 +28,7 @@ namespace Play
             {
                 GameObject ob = Instantiate(setSelectionInterfacePrefab.gameObject);
                 ob.transform.SetParent(interfaceHolder);
+                ob.transform.localScale = Vector3.one;
                 ob.GetComponent<SetSelectionInterface>().Set(QuestionManager.GetSet(setNameList[i]), i == 0);
             }
         }

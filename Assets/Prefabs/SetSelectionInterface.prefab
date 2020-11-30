@@ -87,6 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1069310253192711291}
   - component: {fileID: 8745688842410680371}
+  - component: {fileID: 4779951999770616792}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -163,6 +164,20 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 178335947092017520}
+--- !u!114 &4779951999770616792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643643355182507700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 1
+  m_AspectRatio: 6.2395062
 --- !u!1 &3642988450401772514
 GameObject:
   m_ObjectHideFlags: 0
