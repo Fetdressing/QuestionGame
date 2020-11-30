@@ -8,13 +8,13 @@ using TMPro;
 public class ConfirmScreen : UIBase
 {
     [SerializeField]
-    private Button confirmButton;
+    protected Button confirmButton;
 
     [SerializeField]
-    private Button cancelButton;
+    protected Button cancelButton;
 
     [SerializeField]
-    private TextMeshProUGUI displayText;
+    protected TextMeshProUGUI displayText;
 
     public static ConfirmScreen Create()
     {

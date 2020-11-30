@@ -11,4 +11,14 @@ public class UIBase : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
+
+    protected virtual void OnInit()
+    {
+
+    }
+
+    private void Awake()
+    {
+        OnInit();
+    }
 }

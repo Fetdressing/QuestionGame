@@ -12,7 +12,10 @@ namespace Play
         private string pName;
 
         [SerializeField]
-        private UnityInputFieldInterface nameInput;
+        private TextMeshProUGUI nameText;
+
+        [SerializeField]
+        private Button nameInputButton;
 
         [SerializeField]
         private Button removeButton;
@@ -33,25 +36,35 @@ namespace Play
             this.onNameChanged = onNameChanged;
             this.onRemove = onRemove;
 
-            this.nameInput.onEndEdit.AddListener(OnNameChanged);
+            this.nameInputButton.onClick.AddListener(delegate { InputScreen.Create().Set("What is the Name of this Player?", 3, 14, true, OnNameChanged, startValue: GetName()); });
             this.removeButton.onClick.AddListener(OnRemove);
         }
 
         public void SetName(string newName)
         {
             this.pName = newName;
-            this.nameInput.SetTextWithoutNotify(newName);
+            this.nameText.text = newName;
+        }
+
+        public string GetName()
+        {
+            return this.pName;
         }
 
         private void OnNameChanged(string newName)
         {
+            if (string.IsNullOrEmpty(newName))
+            {
+                return;
+            }
+
             if (string.Equals(newName, this.pName))
             {
                 return;
             }
 
             onNameChanged.Invoke(newName, this.pName, this);
-            this.pName = newName;
+            this.SetName(newName);
         }
 
         private void OnRemove()

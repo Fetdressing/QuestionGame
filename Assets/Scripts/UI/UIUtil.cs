@@ -15,7 +15,8 @@ public class UIUtil : MonoBehaviour
 
     public enum UIType
     {
-        ConfirmScreen
+        ConfirmScreen,
+        InputScreen
     }
 
     private static UIUtil Instance
