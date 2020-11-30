@@ -27,14 +27,20 @@ namespace Play
 
         private HashSet<string> activePlayers = new HashSet<string>();
 
+        private void OnEnable()
+        {
+            if (activePlayers.Count == 0)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    AddPlayer();
+                }
+            }
+        }
+
         private void Awake()
         {
             addPlayerButton.onClick.AddListener(AddPlayer);
-
-            for (int i = 0; i < 2; i++)
-            {
-                AddPlayer();
-            }
         }
 
         private void AddPlayer()
