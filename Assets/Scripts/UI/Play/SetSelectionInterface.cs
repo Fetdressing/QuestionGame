@@ -24,21 +24,28 @@ namespace Play
         private RectTransform[] offGraphics;
 
         private bool isOn;
+        private System.Action onChanged;
 
         private void Awake()
         {
-            toggleButton.onClick.AddListener(delegate { this.IsActive = !this.IsActive; });
+            toggleButton.onClick.AddListener(delegate { this.IsOn = !this.IsOn; });
         }
 
-        public void Set(QuestionManager.QuestionSet questionSet, bool toggled)
+        public void Set(QuestionManager.QuestionSet questionSet, bool toggled, System.Action onChanged = null)
         {
             this.questionSet = questionSet;
 
             this.questionSetNameText.text = this.questionSet.GetDisplayName();
-            this.IsActive = toggled;
+            this.IsOn = toggled;
+            this.onChanged = onChanged;
         }
 
-        public bool IsActive
+        public QuestionManager.QuestionSet Get()
+        {
+            return this.questionSet;
+        }
+
+        public bool IsOn
         {
             get
             {
@@ -47,6 +54,7 @@ namespace Play
 
             private set
             {
+                bool oldVal = this.isOn;
                 this.isOn = value;
 
                 for (int i = 0; i < onGraphics.Length; i++)
@@ -57,6 +65,11 @@ namespace Play
                 for (int i = 0; i < offGraphics.Length; i++)
                 {
                     offGraphics[i].gameObject.SetActive(!this.isOn);
+                }
+
+                if (oldVal != value)
+                {
+                    this.onChanged?.Invoke();
                 }
             }
         }

@@ -24,8 +24,37 @@ namespace Play
         [SerializeField]
         private string[] randomNamePool;
 
-
         private HashSet<string> activePlayers = new HashSet<string>();
+
+        private static PlayerSelection instance;
+        private static PlayerSelection Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = UIUtil.GetAllObjectsInScene<PlayerSelection>()[0];
+                }
+
+                if (instance == null)
+                {
+                    Debug.LogError("Instance was null.");
+                }
+
+                return instance;
+            }
+        }
+
+        public static List<string> GetPlayers()
+        {
+            List<string> playerList = new List<string>();
+            foreach (string p in Instance.activePlayers)
+            {
+                playerList.Add(p);
+            }
+
+            return playerList;
+        }
 
         private void OnEnable()
         {
@@ -36,6 +65,21 @@ namespace Play
                     AddPlayer();
                 }
             }
+
+            Validate();
+        }
+
+        private void Validate(bool throwError = true)
+        {
+            if (pInterfaceHolder.childCount != activePlayers.Count)
+            {
+                if (throwError)
+                {
+                    Debug.LogError(this.GetType().FullName + ": Missmatch in nr displayed players and actual players. (Graphics: " + pInterfaceHolder.childCount.ToString() + ", Players: " + activePlayers.Count);
+                }
+            }
+
+            PlayHandler.SetNextButtonsActive(activePlayers.Count > 0);
         }
 
         private void Awake()
@@ -71,6 +115,7 @@ namespace Play
             ob.GetComponent<PlayerInterface>().Set(nameToUse, OnRenamePlayer, RemovePlayer);
             ob.transform.SetParent(pInterfaceHolder);
             ob.transform.localScale = Vector3.one;
+            Validate();
         }
 
         private void OnRenamePlayer(string newName, string oldName, PlayerInterface pInterface)
@@ -91,6 +136,8 @@ namespace Play
         private void RemovePlayer(string name)
         {
             activePlayers.Remove(name);
+            Validate(false);
+            UIUtil.InvokeDelayed(() => { Validate(true); }, 1);
         }
 
         private string GetRandomNameFromPool()

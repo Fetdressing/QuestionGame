@@ -28,11 +28,33 @@ namespace Play
             End
         }
 
+        private static PlayHandler instance;
+        private static PlayHandler Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<PlayHandler>();
+                }
+
+                return instance;
+            }
+        }
+
         private Phase CurrPhase
         {
             get
             {
                 return currPhase;
+            }
+        }
+
+        public static void SetNextButtonsActive(bool active)
+        {
+            for (int i = 0; i < Instance.nextButtons.Length; i++)
+            {
+                Instance.nextButtons[i].gameObject.SetActive(active);
             }
         }
 
