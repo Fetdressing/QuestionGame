@@ -64,11 +64,15 @@ public class QuestionManager
         }
     }
 
-    public static void RemoveSet(string setName)
+    public static void RemoveSet(string keyName)
     {
-        if (GetSet(setName) != null)
+        if (questionDict.ContainsKey(keyName))
         {
-            questionDict.Remove(setName);
+            questionDict.Remove(keyName);
+        }
+        else
+        {
+            Debug.LogError("Couldn't find set to remove (" + keyName + ")");
         }
     }
 
@@ -209,9 +213,9 @@ public class QuestionManager
                 return; // No questions to load.
             }
 
-            File.Delete(fileName);
             Clear();
             RemoveSet(keyName);
+            File.Delete(fileName);
         }
 
         public void Clear()

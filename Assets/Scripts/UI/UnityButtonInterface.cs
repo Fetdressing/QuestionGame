@@ -6,6 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using TMPro;
+
 /// <summary>
 /// Used for interfacing with <see cref="Button"/>.
 /// </summary>
@@ -37,6 +39,20 @@ public class UnityButtonInterface : UnityEngine.UI.Button
     /// </summary>
     [SerializeField]
     private Transform[] children;
+
+    [SerializeField]
+    private TextMeshProUGUI defaultText;
+
+    public string Text
+    {
+        set
+        {
+            if (this.defaultText != null)
+            {
+                this.defaultText.text = value;
+            }
+        }
+    }
 
     /// <summary>
     /// On pointer enter.
@@ -137,6 +153,7 @@ public class UnityButtonInterface : UnityEngine.UI.Button
             EditorGUILayout.PropertyField(serializedObject.FindProperty("clickApplyChildren"), new GUIContent("Click Apply Children", "Whether to apply click effect to children or not."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("onClickSound"), new GUIContent("Click sound", "Sound to play when clicked."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("clickForce"), new GUIContent("Click Force", "What force the click effect should have."));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultText"), new GUIContent("Default text that can be used."));
             serializedObject.ApplyModifiedProperties();
         }
     }

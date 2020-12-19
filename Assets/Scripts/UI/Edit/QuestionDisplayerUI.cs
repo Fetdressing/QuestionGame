@@ -64,7 +64,7 @@ namespace Edit
 
             if (currSet.GetQuestions().Count <= 1)
             {
-                ConfirmScreen.Create().Set("Can't remove! You must have a question in the set.", useCancel: false);
+                ConfirmScreen.Create().Set("Can't remove! You must have atleast one question in the set.", useCancel: false);
                 return;
             }
 

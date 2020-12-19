@@ -18,7 +18,7 @@ namespace Edit
         private Dropdown questionSetDropdown;
 
         [SerializeField]
-        private UnityInputFieldInterface questionSetNameInputField;
+        private UnityButtonInterface setNameButton;
 
         [SerializeField]
         private Button saveButton;
@@ -26,12 +26,16 @@ namespace Edit
         [SerializeField]
         private Button clearSetButton;
 
+        [SerializeField]
+        private Button removeSetButton;
+
         private IEnumerator autosaveIE = null;
 
         private void Awake()
         {
             QuestionManager.QuestionSet questionSet;
-            clearSetButton.onClick.AddListener(() => { PromptClearCurrent(); });
+            clearSetButton?.onClick.AddListener(() => { PromptClearCurrent(); });
+            removeSetButton?.onClick.AddListener(PromptRemoveCurrent);
             questionSetDropdown.onValueChanged.AddListener(delegate
             {
                 if (questionSetDropdown.value >= questionSetDropdown.options.Count - 1)
@@ -47,8 +51,8 @@ namespace Edit
                     SetCurrent(questionSet, questionSetDropdown.value);
                 }
             });
-
-            questionSetNameInputField.onEndEdit.AddListener(OnSetNameChanged);
+            
+            setNameButton.onClick.AddListener(PromptNameChange);
             saveButton?.onClick.AddListener(() => { SaveCurrent(); });
 
             UpdateDropdown();
@@ -70,7 +74,7 @@ namespace Edit
 
             currSet = questionSet;
             questionSetDropdown.SetValueWithoutNotify(dropdownIndex);
-            questionSetNameInputField.SetTextWithoutNotify(questionSet.GetDisplayName());
+            setNameButton.Text = questionSet.GetDisplayName();
             questionDisplay.SetCurrentSet(currSet);
         }
 
@@ -103,17 +107,23 @@ namespace Edit
 
         private void PromptRemoveCurrent()
         {
+            if (QuestionManager.GetAllSetNames().Count == 1)
+            {
+                ConfirmScreen.Create().Set("You can't remove this set because you must atleast have one.", null, useCancel: false);
+                return;
+            }
+
             if (!CanRemoveCurrent())
             {
                 return;
             }
 
-            ConfirmScreen.Create().Set("Are you sure you wish to remove this set?",
+            ConfirmScreen.Create().Set("Are you sure you wish to remove " + currSet.GetDisplayName() + "?",
                 confirm: () =>
                 {
                     currSet.Delete();
                     UpdateDropdown();
-                    SetCurrent(null, 0);
+                    SetCurrent(QuestionManager.GetSet(QuestionManager.GetAllSetNames()[0]), 0);
                 });
         }
 
@@ -142,6 +152,11 @@ namespace Edit
             }
         }
 
+        private void PromptNameChange()
+        {
+            InputScreen.Create().Set("New Set Name?", 3, 15, true, callbackConfirm: OnSetNameChanged, startValue: currSet.GetDisplayName());
+        }
+
         private void OnSetNameChanged(string newName)
         {
             if (currSet == null)
@@ -150,7 +165,13 @@ namespace Edit
                 return;
             }
 
+            if (string.IsNullOrEmpty(newName))
+            {
+                return;
+            }
+
             currSet.SetDisplayName(newName);
+            setNameButton.Text = newName;
             UpdateDropdown(newName);
         }
 

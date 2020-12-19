@@ -78,7 +78,7 @@ public class UIUtil : MonoBehaviour
         return objectsInScene.ToArray();
     }
 
-    private static bool IsPrefab(MonoBehaviour obj)
+    public static bool IsPrefab(MonoBehaviour obj)
     {
         // During runtime.
         if (UnityEngine.Application.isPlaying)

@@ -755,6 +755,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 1378366895}
+  defaultText: {fileID: 0}
 --- !u!224 &167510856
 RectTransform:
   m_ObjectHideFlags: 0
@@ -935,6 +936,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 1484936054}
+  defaultText: {fileID: 0}
 --- !u!1 &416990856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,6 +1327,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 52318291}
+  defaultText: {fileID: 0}
 --- !u!114 &506116195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3098,6 +3101,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 557943324}
+  defaultText: {fileID: 0}
 --- !u!114 &1164192637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3377,6 +3381,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 1291063418}
+  defaultText: {fileID: 0}
 --- !u!114 &1340623334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4362,6 +4367,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 895287916}
+  defaultText: {fileID: 0}
 --- !u!114 &1806355078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4434,7 +4440,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.28450197, g: 0.33962262, b: 0.28034887, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4549,6 +4555,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 1505727694}
+  defaultText: {fileID: 0}
 --- !u!224 &1824018199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5064,6 +5071,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 20218368}
+  defaultText: {fileID: 0}
 --- !u!114 &2118112754
 MonoBehaviour:
   m_ObjectHideFlags: 0

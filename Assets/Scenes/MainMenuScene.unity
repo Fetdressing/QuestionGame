@@ -428,8 +428,10 @@ MonoBehaviour:
   buttons:
   - button: {fileID: 1817384277}
     sceneGoToName: PlayScene
+    prompt: 
   - button: {fileID: 1106756451}
     sceneGoToName: EditScene
+    prompt: 
 --- !u!1 &664636916
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +718,7 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 664636917}
+  defaultText: {fileID: 0}
 --- !u!224 &1106756452
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1016,7 +1019,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1187,3 +1190,4 @@ MonoBehaviour:
   clickApplyTargetGraphic: 1
   children:
   - {fileID: 480806848}
+  defaultText: {fileID: 0}

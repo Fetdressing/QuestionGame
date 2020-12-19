@@ -58,6 +58,11 @@ namespace Play
             }
         }
 
+        public static void BackPhase()
+        {
+            Instance.SetActivePhase(Instance.CurrPhase - 1);
+        }
+
         private void Awake()
         {
             SetActivePhase(Phase.PlayerSelection);
