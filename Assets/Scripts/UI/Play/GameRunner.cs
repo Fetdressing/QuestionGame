@@ -52,7 +52,7 @@ namespace Play
             QuestionManager.Question question = questionList[index];
             questionList.RemoveAt(index);
 
-            questionDisplayer.text = question.value;
+            questionDisplayer.text = UIUtil.ToColoredNamesString(question.value, PlayerSelection.GetPlayers());
         }
     }
 }

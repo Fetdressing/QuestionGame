@@ -15,6 +15,7 @@ public class UIUtil : MonoBehaviour
 
     [SerializeField]
     private List<Color32> playerColorList = new List<Color32>();
+    private string[] toSplitBy = new string[] { " x", " X", "x ", "X " };
 
     public enum UIType
     {
@@ -115,6 +116,32 @@ public class UIUtil : MonoBehaviour
         return false;
     }
 
+    private static int GetIndexRound<T>(int index, List<T> list) where T : class
+    {
+        if (index < list.Count)
+        {
+            return index;
+        }
+        else
+        {
+            int roundIndex = index % list.Count;
+            return roundIndex;
+        }
+    }
+
+    private static int GetIndexRound(int index, int count)
+    {
+        if (index < count)
+        {
+            return index;
+        }
+        else
+        {
+            int roundIndex = index % count;
+            return roundIndex;
+        }
+    }
+
     #region Coroutine
 
     public static void InvokeDelayed(System.Action action, int frameDelay)
@@ -140,21 +167,34 @@ public class UIUtil : MonoBehaviour
 
     #endregion
 
+    #region Color
+
+    public static Color32 GetPlayerColor(int index)
+    {
+        return Instance.playerColorList[GetIndexRound(index, Instance.playerColorList.Count)];
+    }
+
+    public static string GetPlayerColorHex(int index)
+    {
+        return ColorUtility.ToHtmlStringRGB(GetPlayerColor(index));
+    }
+
+    #endregion
+
     #region Question Util
 
     public static string ToColoredNamesString(string s)
     {
         string newString = "";
-
-        string[] toSplitBy = new string[]{ " x", " X", "x ", "X " };
-        string[] splitArray = s.Split(toSplitBy, System.StringSplitOptions.None);
+        
+        string[] splitArray = s.Split(Instance.toSplitBy, System.StringSplitOptions.None);
 
         if (splitArray.Length == 0)
         {
             return s;
         }
 
-        bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], toSplitBy);
+        bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], Instance.toSplitBy);
 
         for (int i = 0; i < splitArray.Length; i++)
         {
@@ -166,22 +206,29 @@ public class UIUtil : MonoBehaviour
         return newString;
     }
 
-    public static Color32 GetPlayerColor(int index)
+    public static string ToColoredNamesString(string s, List<string> playerList)
     {
-        if (index < Instance.playerColorList.Count)
-        {
-            return Instance.playerColorList[index];
-        }
-        else
-        {
-            int roundIndex = index % Instance.playerColorList.Count;
-            return Instance.playerColorList[roundIndex];
-        }
-    }
+        string newString = "";
 
-    public static string GetPlayerColorHex(int index)
-    {
-        return ColorUtility.ToHtmlStringRGB(GetPlayerColor(index));
+        string[] splitArray = s.Split(Instance.toSplitBy, System.StringSplitOptions.None);
+
+        if (splitArray.Length == 0)
+        {
+            return s;
+        }
+
+        bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], Instance.toSplitBy);
+
+        int playerIndex = 0;
+        for (int i = 0; i < splitArray.Length; i++)
+        {
+            // Make sure to only add the value in the end if it actually ends with it.
+            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">" + playerList[GetIndexRound(playerIndex, playerList)] + "</color></b> " : "";
+            newString += splitArray[i] + addValue;
+            playerIndex++;
+        }
+
+        return newString;
     }
 
     private static bool StringEndsWithAny(string s, string[] sArr)
