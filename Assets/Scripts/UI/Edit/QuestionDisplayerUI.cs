@@ -78,7 +78,6 @@ namespace Edit
 
         #region Graphics
 
-
         private void AddQuestionGraphics(QuestionManager.Question question)
         {
             GameObject ob = Instantiate(questionPrefab.gameObject);

@@ -6,13 +6,15 @@ using UnityEngine.SceneManagement;
 using RotaryHeart.Lib.SerializableDictionary;
 using RotaryHeart;
 
-
 public class UIUtil : MonoBehaviour
 {
     private static UIUtil instance;
 
     [SerializeField]
     private UIDict uiDict;
+
+    [SerializeField]
+    private List<Color32> playerColorList = new List<Color32>();
 
     public enum UIType
     {
@@ -113,6 +115,8 @@ public class UIUtil : MonoBehaviour
         return false;
     }
 
+    #region Coroutine
+
     public static void InvokeDelayed(System.Action action, int frameDelay)
     {
         IEnumerator ie = InvokeDelayedIE(action, frameDelay);
@@ -133,6 +137,80 @@ public class UIUtil : MonoBehaviour
             action.Invoke();
         }
     }
+
+    #endregion
+
+    #region Question Util
+
+    public static string ToColoredNamesString(string s)
+    {
+        string newString = "";
+
+        string[] toSplitBy = new string[]{ " x", " X", "x ", "X " };
+        string[] splitArray = s.Split(toSplitBy, System.StringSplitOptions.None);
+
+        if (splitArray.Length == 0)
+        {
+            return s;
+        }
+
+        bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], toSplitBy);
+
+        for (int i = 0; i < splitArray.Length; i++)
+        {
+            // Make sure to only add the value in the end if it actually ends with it.
+            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">X</color></b> " : "";
+            newString += splitArray[i] + addValue;
+        }
+        
+        return newString;
+    }
+
+    public static Color32 GetPlayerColor(int index)
+    {
+        if (index < Instance.playerColorList.Count)
+        {
+            return Instance.playerColorList[index];
+        }
+        else
+        {
+            int roundIndex = index % Instance.playerColorList.Count;
+            return Instance.playerColorList[roundIndex];
+        }
+    }
+
+    public static string GetPlayerColorHex(int index)
+    {
+        return ColorUtility.ToHtmlStringRGB(GetPlayerColor(index));
+    }
+
+    private static bool StringEndsWithAny(string s, string[] sArr)
+    {
+        for (int i = 0; i < sArr.Length; i++)
+        {
+            if (s.EndsWith(sArr[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool StringBeginsWithAny(string s, string[] sArr)
+    {
+        for (int i = 0; i < sArr.Length; i++)
+        {
+            if (s.StartsWith(sArr[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    #endregion
 
     [System.Serializable]
     public class UIDict : SerializableDictionaryBase<UIType, UIBase>

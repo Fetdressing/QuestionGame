@@ -71,3 +71,14 @@ MonoBehaviour:
     _values:
     - {fileID: 9076197804932574121, guid: ed45f3bd41791b14f9eac78cb4284c71, type: 3}
     - {fileID: 7416351137455097262, guid: 0d7aba84fb9c9b741bf5cf1f4a5b5394, type: 3}
+  playerColorList:
+  - serializedVersion: 2
+    rgba: 4293132032
+  - serializedVersion: 2
+    rgba: 4278229503
+  - serializedVersion: 2
+    rgba: 4281860351
+  - serializedVersion: 2
+    rgba: 4278255382
+  - serializedVersion: 2
+    rgba: 4294902012
