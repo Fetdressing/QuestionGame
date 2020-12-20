@@ -107,7 +107,7 @@ namespace Edit
 
         private void PromptRemoveCurrent()
         {
-            if (QuestionManager.GetAllSetNames().Count == 1)
+            if (QuestionManager.GetAllSetNames().Count <= 1)
             {
                 ConfirmScreen.Create().Set("You can't remove this set because you must atleast have one.", null, useCancel: false);
                 return;
@@ -122,6 +122,7 @@ namespace Edit
                 confirm: () =>
                 {
                     currSet.Delete();
+                    currSet = null; // So it won't be autosaved.
                     UpdateDropdown();
                     SetCurrent(QuestionManager.GetSet(QuestionManager.GetAllSetNames()[0]), 0);
                 });

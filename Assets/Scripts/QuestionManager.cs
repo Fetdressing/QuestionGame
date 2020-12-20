@@ -102,9 +102,8 @@ public class QuestionManager
                 string[] splitString = file.Name.Split('.');
                 questionSet = new QuestionSet(splitString[0]);
                 questionDict.Add(splitString[0], questionSet);
+                nrSets++;
             }
-
-            nrSets++;
         }
 
         if (nrSets == 0)
@@ -209,7 +208,7 @@ public class QuestionManager
         {
             if (!File.Exists(fileName))
             {
-                Debug.Log("File didn't exist: " + fileName);
+                Debug.LogError("File didn't exist: " + fileName);
                 return; // No questions to load.
             }
 
