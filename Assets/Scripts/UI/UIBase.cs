@@ -56,7 +56,8 @@ public class UIBase : MonoBehaviour
             OnEditorUpdate();
         }
     }
-    
+
+#if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad]
     [UnityEditor.CustomEditor(typeof(UIBase), true)]
     public class UIBaseEditor : Editor
@@ -72,4 +73,5 @@ public class UIBase : MonoBehaviour
             }
         }
     }
+#endif
 }

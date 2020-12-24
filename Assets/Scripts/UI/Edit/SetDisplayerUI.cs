@@ -43,8 +43,8 @@ namespace Edit
             {
                 if (questionSetDropdown.value >= questionSetDropdown.options.Count - 1)
                 {
-                // Picked the last option.
-                questionSet = AddSet();
+                    // Picked the last option.
+                    questionSet = AddSet();
                     UpdateDropdown();
                     SetCurrent(questionSet, questionSetDropdown.options.Count - 2);
                 }

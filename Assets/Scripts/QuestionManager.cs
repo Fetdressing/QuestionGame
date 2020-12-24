@@ -58,7 +58,7 @@ public class QuestionManager
         {
             QuestionSet questionSet = new QuestionSet(fileName);
             questionSet.SetDisplayName(setName);
-            questionSet.Add(new Question("Would you rather...")); // Add a default question.
+            questionSet.Add(new Question("Give 5 drinks to X or X!")); // Add a default question.
             questionDict.Add(fileName, questionSet);
             return questionSet;
         }
@@ -110,7 +110,7 @@ public class QuestionManager
         {
             // Add a default one.
             const string defaultName = "Default";
-            questionDict.Add(defaultName, new QuestionSet(defaultName));
+            AddSet(defaultName);
         }
     }
 
