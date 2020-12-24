@@ -185,8 +185,7 @@ public class UIUtil : MonoBehaviour
 
     public static string ToColoredNamesString(string s)
     {
-        string newString = "";
-        
+        string newString = "";        
         string[] splitArray = s.Split(Instance.toSplitBy, System.StringSplitOptions.None);
 
         if (splitArray.Length == 0)
@@ -206,10 +205,17 @@ public class UIUtil : MonoBehaviour
         return newString;
     }
 
-    public static string ToColoredNamesString(string s, List<string> playerList)
+    public static string ToColoredNamesString(string s, List<System.Tuple<string, string>> playerList)
     {
-        string newString = "";
+        if (playerList == null || playerList.Count == 0)
+        {
+            const string errorMsg = "Invalid player list, it's empty or null.";
+            ConfirmScreen.Create().Set(errorMsg, null, useCancel: false);
+            Debug.LogError(errorMsg);
+            return "";
+        }
 
+        string newString = "";
         string[] splitArray = s.Split(Instance.toSplitBy, System.StringSplitOptions.None);
 
         if (splitArray.Length == 0)
@@ -218,14 +224,22 @@ public class UIUtil : MonoBehaviour
         }
 
         bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], Instance.toSplitBy);
-
+        List<System.Tuple<string, string>> validPlayerList = new List<System.Tuple<string, string>>();
         int playerIndex = 0;
         for (int i = 0; i < splitArray.Length; i++)
         {
+            if (validPlayerList.Count == 0)
+            {
+                validPlayerList.AddRange(playerList); // List emptied -> refill it.
+            }
+
+            playerIndex = Random.Range(0, validPlayerList.Count);
+
             // Make sure to only add the value in the end if it actually ends with it.
-            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">" + playerList[GetIndexRound(playerIndex, playerList)] + "</color></b> " : "";
+            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + validPlayerList[playerIndex].Item2 + ">" + validPlayerList[playerIndex].Item1 + "</color></b> " : "";
             newString += splitArray[i] + addValue;
-            playerIndex++;
+
+            validPlayerList.RemoveAt(playerIndex); // Remmove the name used so it won't be used again at first.
         }
 
         return newString;

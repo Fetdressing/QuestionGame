@@ -14,8 +14,7 @@ namespace Play
 
         [SerializeField]
         private TextMeshProUGUI questionDisplayer;
-
-        List<string> playerList;
+        
         List<QuestionManager.Question> questionList = new List<QuestionManager.Question>();
 
         private void Awake()
@@ -25,7 +24,6 @@ namespace Play
 
         private void OnEnable()
         {
-            playerList = PlayerSelection.GetPlayers();
             Replay();
         }
 

@@ -25,6 +25,7 @@ namespace Play
         private string[] randomNamePool;
 
         private HashSet<string> activePlayers = new HashSet<string>();
+        private List<string> activePlayerHexColors = new List<string>();
 
         private static PlayerSelection instance;
         private static PlayerSelection Instance
@@ -45,12 +46,14 @@ namespace Play
             }
         }
 
-        public static List<string> GetPlayers()
+        public static List<System.Tuple<string, string>> GetPlayers()
         {
-            List<string> playerList = new List<string>();
+            List<System.Tuple<string, string>> playerList = new List<System.Tuple<string, string>>();
+            int currIndex = 0;
             foreach (string p in Instance.activePlayers)
             {
-                playerList.Add(p);
+                playerList.Add(new System.Tuple<string, string>(p, Instance.activePlayerHexColors[currIndex]));
+                currIndex++;
             }
 
             return playerList;
@@ -111,6 +114,7 @@ namespace Play
             }
 
             activePlayers.Add(nameToUse);
+            activePlayerHexColors.Add(UIUtil.GetPlayerColorHex(activePlayers.Count - 1));
             GameObject ob = Instantiate(pInterfacePrefab.gameObject);
             ob.GetComponent<PlayerInterface>().Set(nameToUse, OnRenamePlayer, RemovePlayer);
             ob.transform.SetParent(pInterfaceHolder);
@@ -136,6 +140,7 @@ namespace Play
         private void RemovePlayer(string name)
         {
             activePlayers.Remove(name);
+            activePlayerHexColors.RemoveAt(activePlayerHexColors.Count - 1);
             Validate(false);
             UIUtil.InvokeDelayed(() => { Validate(true); }, 1);
         }
