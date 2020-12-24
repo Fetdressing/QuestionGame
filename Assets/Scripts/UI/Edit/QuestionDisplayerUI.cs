@@ -83,6 +83,7 @@ namespace Edit
             GameObject ob = Instantiate(questionPrefab.gameObject);
             ob.GetComponent<QuestionEditInterface>().Set(question, RemoveQuestion);
             ob.transform.SetParent(questionRoot);
+            ob.transform.localScale = Vector3.one;
         }
 
         private void RemoveQuestionGraphics(QuestionEditInterface questionUI)

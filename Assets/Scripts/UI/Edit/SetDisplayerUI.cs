@@ -126,7 +126,7 @@ namespace Edit
                 return;
             }
 
-            ConfirmScreen.Create().Set("Are you sure you wish to remove " + currSet.GetDisplayName() + "?",
+            ConfirmScreen.Create().Set("Are you sure you wish to remove the set: <b><i><color=red><" + currSet.GetDisplayName() + "></color></b></i>?",
                 confirm: () =>
                 {
                     currSet.Delete();
