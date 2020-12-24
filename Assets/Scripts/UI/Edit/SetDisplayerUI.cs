@@ -29,6 +29,9 @@ namespace Edit
         [SerializeField]
         private Button removeSetButton;
 
+        [SerializeField]
+        private SceneButtonHandler sceneButtonHandler;
+
         private IEnumerator autosaveIE = null;
 
         private void Awake()
@@ -54,6 +57,7 @@ namespace Edit
             
             setNameButton.onClick.AddListener(PromptNameChange);
             saveButton?.onClick.AddListener(() => { SaveCurrent(); });
+            sceneButtonHandler.OnSceneChanged = SaveCurrent;
 
             UpdateDropdown();
             questionSet = QuestionManager.GetSet(QuestionManager.GetAllSetNames()[0]);
@@ -85,6 +89,10 @@ namespace Edit
                 Debug.LogError(this.GetType().FullName + ": Null set.");
                 return;
             }
+
+#if UNITY_EDITOR
+            Debug.Log(this.GetType().FullName + ": Saved..." + currSet.GetDisplayName());
+#endif
 
             currSet.Save();
         }

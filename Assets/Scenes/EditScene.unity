@@ -1468,6 +1468,7 @@ MonoBehaviour:
   saveButton: {fileID: 1009604385}
   clearSetButton: {fileID: 0}
   removeSetButton: {fileID: 2094879325}
+  sceneButtonHandler: {fileID: 572044278}
 --- !u!114 &572044278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,7 +2403,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 53
+  m_fontSize: 53.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

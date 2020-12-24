@@ -12,6 +12,26 @@ public class SceneButtonHandler : MonoBehaviour
     [SerializeField]
     private ButtonScene[] buttons;
 
+    private System.Action onSceneChanged;
+
+    public System.Action OnSceneChanged
+    {
+        get
+        {
+            return onSceneChanged;
+        }
+
+        set
+        {
+            onSceneChanged = value;
+
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].OnSceneChanged = onSceneChanged;
+            }
+        }
+    }
+
     private void Awake()
     {
         for (int i = 0; i < buttons.Length; i++)
@@ -32,6 +52,8 @@ public class SceneButtonHandler : MonoBehaviour
         [SerializeField]
         private string prompt = null;
 
+        public System.Action OnSceneChanged { get; set; } = null;
+
         public void Init()
         {
             button?.onClick.AddListener(MoveToScene);
@@ -39,16 +61,24 @@ public class SceneButtonHandler : MonoBehaviour
 
         private void MoveToScene()
         {
-            System.Action confirm = () => { SceneManager.LoadScene(sceneGoToName, LoadSceneMode.Single); };
-
             if (!string.IsNullOrEmpty(prompt))
             {
-                ConfirmScreen.Create().Set(prompt, confirm);
+                ConfirmScreen.Create().Set(prompt, OnConfirm);
             }
             else
             {
-                confirm.Invoke();
+                OnConfirm();
             }            
+        }
+
+        private void OnConfirm()
+        {
+            if (OnSceneChanged != null)
+            {
+                OnSceneChanged.Invoke();
+            }
+
+            SceneManager.LoadScene(sceneGoToName, LoadSceneMode.Single);
         }
     }
 }
