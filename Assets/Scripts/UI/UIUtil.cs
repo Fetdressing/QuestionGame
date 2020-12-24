@@ -150,6 +150,12 @@ public class UIUtil : MonoBehaviour
         Instance.StartCoroutine(ie);
     }
 
+    public static void InvokeDelayed(System.Action action, float timeDelay)
+    {
+        IEnumerator ie = InvokeDelayedIE(action, timeDelay);
+        Instance.StartCoroutine(ie);
+    }
+
     private static IEnumerator InvokeDelayedIE(System.Action action, int frameDelay)
     {
         int currCount = 0;
@@ -158,6 +164,16 @@ public class UIUtil : MonoBehaviour
             currCount++;
             yield return new WaitForEndOfFrame();
         }
+
+        if (action != null)
+        {
+            action.Invoke();
+        }
+    }
+
+    private static IEnumerator InvokeDelayedIE(System.Action action, float timeDelay)
+    {
+        yield return new WaitForSeconds(timeDelay);
 
         if (action != null)
         {

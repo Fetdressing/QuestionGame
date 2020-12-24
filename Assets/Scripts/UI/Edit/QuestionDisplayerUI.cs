@@ -36,7 +36,7 @@ namespace Edit
             {
                 for (int i = 0; i < questionSet.GetQuestions().Count; i++)
                 {
-                    AddQuestionGraphics(questionSet.GetQuestions()[i]);
+                    AddQuestionGraphics(questionSet.GetQuestions()[i], i * 0.06f);
                 }
             }
         }
@@ -78,12 +78,18 @@ namespace Edit
 
         #region Graphics
 
-        private void AddQuestionGraphics(QuestionManager.Question question)
+        private void AddQuestionGraphics(QuestionManager.Question question, float delayedActivasion = -1f)
         {
             GameObject ob = Instantiate(questionPrefab.gameObject);
             ob.GetComponent<QuestionEditInterface>().Set(question, RemoveQuestion);
             ob.transform.SetParent(questionRoot);
             ob.transform.localScale = Vector3.one;
+
+            if (delayedActivasion > 0f)
+            {
+                ob.SetActive(false);
+                UIUtil.InvokeDelayed(() => { ob.SetActive(true); }, delayedActivasion);
+            }
         }
 
         private void RemoveQuestionGraphics(QuestionEditInterface questionUI)
