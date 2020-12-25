@@ -112,7 +112,7 @@ namespace Edit
                 return;
             }
 
-            ConfirmScreen.Create(UIUtil.UIType.ConfirmScreenRemove).Set("Are you sure you wish to remove the set: <b><i><color=red><" + currSet.GetDisplayName() + "></color></b></i>?",
+            ConfirmScreen.Create(UIUtil.UIType.ConfirmScreenRemove).Set("Are you sure you wish to remove the set: <b><color=red>" + currSet.GetDisplayName() + "</color></b>?",
                 confirm: () =>
                 {
                     currSet.Delete();
