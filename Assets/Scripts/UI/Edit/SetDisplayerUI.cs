@@ -39,24 +39,10 @@ namespace Edit
             QuestionManager.QuestionSet questionSet;
             clearSetButton?.onClick.AddListener(() => { PromptClearCurrent(); });
             removeSetButton?.onClick.AddListener(PromptRemoveCurrent);
-            questionSetDropdown.onValueChanged.AddListener(delegate
-            {
-                if (questionSetDropdown.value >= questionSetDropdown.options.Count - 1)
-                {
-                    // Picked the last option.
-                    questionSet = AddSet();
-                    UpdateDropdown();
-                    SetCurrent(questionSet, questionSetDropdown.options.Count - 2);
-                }
-                else
-                {
-                    questionSet = QuestionManager.GetSet(QuestionManager.GetAllSetNames()[questionSetDropdown.value]);
-                    SetCurrent(questionSet, questionSetDropdown.value);
-                }
-            });
+            questionSetDropdown.onValueChanged.AddListener(OnDropDownChanged);
             
             setNameButton.onClick.AddListener(PromptNameChange);
-            saveButton?.onClick.AddListener(() => { SaveCurrent(); });
+            saveButton?.onClick.AddListener(SaveCurrent);
             sceneButtonHandler.OnSceneChanged = SaveCurrent;
 
             UpdateDropdown();
@@ -141,6 +127,26 @@ namespace Edit
             return currSet != null && QuestionManager.GetAllSetNames().Count > 1;
         }
 
+        #region Drop Down
+
+        private void OnDropDownChanged(int newIndex)
+        {
+            QuestionManager.QuestionSet questionSet;
+
+            if (questionSetDropdown.value >= questionSetDropdown.options.Count - 1)
+            {
+                // Picked the last option.
+                questionSet = AddSet();
+                UpdateDropdown();
+                SetCurrent(questionSet, questionSetDropdown.options.Count - 2);
+            }
+            else
+            {
+                questionSet = QuestionManager.GetSet(QuestionManager.GetAllSetNames()[questionSetDropdown.value]);
+                SetCurrent(questionSet, questionSetDropdown.value);
+            }
+        }
+
         private void UpdateDropdown(string selectedName = "")
         {
             questionSetDropdown.ClearOptions();
@@ -160,6 +166,8 @@ namespace Edit
                 }                
             }
         }
+
+        #endregion
 
         private void PromptNameChange()
         {

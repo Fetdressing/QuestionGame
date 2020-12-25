@@ -81,6 +81,30 @@ public class UIUtil : MonoBehaviour
         return objectsInScene.ToArray();
     }
 
+    public static bool HasDuplicate<T>(T[] array) where T : class
+    {
+        List<T> searchedList = new List<T>();
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (searchedList.Contains(array[i]))
+            {
+                return true;
+            }
+
+            for (int y = 0; y < searchedList.Count; y++)
+            {
+                if (searchedList[y] == array[i])
+                {
+                    return true;
+                }
+            }
+
+            searchedList.Add(array[i]);
+        }
+
+        return false;
+    }
+
     public static bool IsPrefab(MonoBehaviour obj)
     {
         // During runtime.

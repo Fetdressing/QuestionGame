@@ -25,6 +25,13 @@ public class QuestionManager
             }
         }
 
+#if UNITY_EDITOR
+        if (UIUtil.HasDuplicate(names.ToArray()))
+        {
+            Debug.LogError("Make sure there are no duplicate names, we are expecting them to be unique.");
+        }
+#endif
+
         return names;
     }
 
@@ -136,7 +143,14 @@ public class QuestionManager
 
         public void SetDisplayName(string name)
         {
-            this.displayName = name;
+            if (GetAllSetNames().Contains(name))
+            {
+                SetDisplayNameUnique(name, 1);
+            }
+            else
+            {
+                this.displayName = name;
+            }
         }
 
         public string GetDisplayName()
@@ -193,7 +207,7 @@ public class QuestionManager
             currQuestionList.Clear();
             StreamReader reader = new StreamReader(fileName);
 
-            displayName = reader.ReadLine();
+            SetDisplayName(reader.ReadLine());
 
             while (!reader.EndOfStream)
             {
@@ -225,6 +239,19 @@ public class QuestionManager
                 return; // No questions to load.
             }
             currQuestionList.Clear();
+        }
+
+        private void SetDisplayNameUnique(string name, int currIndex)
+        {
+            string potName = name + "_" + currIndex.ToString();
+            if (GetAllSetNames().Contains(potName))
+            {
+                SetDisplayNameUnique(name, currIndex + 1);
+            }
+            else
+            {
+                this.displayName = potName;
+            }
         }
     }
 
