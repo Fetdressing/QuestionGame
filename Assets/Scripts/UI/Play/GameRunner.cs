@@ -42,7 +42,7 @@ namespace Play
         {
             if (questionList.Count == 0)
             {
-                ConfirmScreen.Create().Set("You have played through all the questions, do you want to restart?", Replay, PlayHandler.BackPhase, useCancel: true);
+                ConfirmScreen.Create().Set("You have played through all the questions, do you want to restart?", Replay, PlayHandler.BackPhase, useCancel: true, confirmText: "Replay");
                 return;
             }
 

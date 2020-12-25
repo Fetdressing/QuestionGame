@@ -91,7 +91,7 @@ namespace Edit
                 return;
             }
 
-            ConfirmScreen.Create().Set("Are you sure you wish to clear this set?",
+            ConfirmScreen.Create(UIUtil.UIType.ConfirmScreenReverse).Set("Are you sure you wish to clear this set?",
                confirm: () =>
                {
                    currSet.Clear();
@@ -112,14 +112,14 @@ namespace Edit
                 return;
             }
 
-            ConfirmScreen.Create().Set("Are you sure you wish to remove the set: <b><i><color=red><" + currSet.GetDisplayName() + "></color></b></i>?",
+            ConfirmScreen.Create(UIUtil.UIType.ConfirmScreenRemove).Set("Are you sure you wish to remove the set: <b><i><color=red><" + currSet.GetDisplayName() + "></color></b></i>?",
                 confirm: () =>
                 {
                     currSet.Delete();
                     currSet = null; // So it won't be autosaved.
                     UpdateDropdown();
                     SetCurrent(QuestionManager.GetSet(QuestionManager.GetAllSetNames()[0]), 0);
-                });
+                }, confirmText: "Remove");
         }
 
         private bool CanRemoveCurrent()

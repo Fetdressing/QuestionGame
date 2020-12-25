@@ -66,10 +66,12 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 0000000001000000
-    _keys: 0000000001000000
+    _keyValues: 00000000010000000200000003000000
+    _keys: 00000000010000000200000003000000
     _values:
     - {fileID: 9076197804932574121, guid: ed45f3bd41791b14f9eac78cb4284c71, type: 3}
+    - {fileID: 9076197804932574121, guid: 1fd82c8042891e54c95b712bb0e008d4, type: 3}
+    - {fileID: 9076197804932574121, guid: 00858bb37191afc4984ed94b3c1a61f2, type: 3}
     - {fileID: 7416351137455097262, guid: 0d7aba84fb9c9b741bf5cf1f4a5b5394, type: 3}
   playerColorList:
   - serializedVersion: 2

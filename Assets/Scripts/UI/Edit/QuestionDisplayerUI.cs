@@ -68,12 +68,12 @@ namespace Edit
                 return;
             }
 
-            ConfirmScreen.Create().Set("Are you sure you wish to remove this question?",
+            ConfirmScreen.Create(UIUtil.UIType.ConfirmScreenRemove).Set("Are you sure you wish to remove this question?",
                confirm: () =>
                {
                    currSet.Remove(questionUI.Question.uniqueID);
                    RemoveQuestionGraphics(questionUI);
-               });
+               }, confirmText: "Remove");
         }
 
         #region Graphics

@@ -20,6 +20,8 @@ public class UIUtil : MonoBehaviour
     public enum UIType
     {
         ConfirmScreen,
+        ConfirmScreenRemove,
+        ConfirmScreenReverse,
         InputScreen
     }
 

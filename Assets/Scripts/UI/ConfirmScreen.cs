@@ -8,20 +8,20 @@ using TMPro;
 public class ConfirmScreen : UIBase
 {
     [SerializeField]
-    protected Button confirmButton;
+    protected UnityButtonInterface confirmButton;
 
     [SerializeField]
-    protected Button cancelButton;
+    protected UnityButtonInterface cancelButton;
 
     [SerializeField]
     protected TextMeshProUGUI displayText;
 
-    public static ConfirmScreen Create()
+    public static ConfirmScreen Create(UIUtil.UIType type = UIUtil.UIType.ConfirmScreen)
     {
-        return (ConfirmScreen)UIUtil.Spawn(UIUtil.UIType.ConfirmScreen);
+        return (ConfirmScreen)UIUtil.Spawn(type);
     }
 
-    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null, bool useCancel = true)
+    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null, bool useCancel = true, string confirmText = "Confirm", string cancelText = "Cancel")
     {
         if (string.IsNullOrEmpty(displayText))
         {
@@ -35,6 +35,9 @@ public class ConfirmScreen : UIBase
 
         confirmButton.gameObject.SetActive(true);
         cancelButton.gameObject.SetActive(cancel != null || useCancel);
+
+        confirmButton.Text = confirmText;
+        cancelButton.Text = cancelText;
 
         confirmButton.onClick.AddListener(() => { confirm?.Invoke(); OnConfirm(); });
         cancelButton.onClick.AddListener(() => { cancel?.Invoke(); OnCancel(); });
