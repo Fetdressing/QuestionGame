@@ -152,7 +152,7 @@ namespace Edit
             questionSetDropdown.ClearOptions();
             List<string> questionSetKeyList = QuestionManager.GetAllSetNames();
             questionSetDropdown.AddOptions(questionSetKeyList);
-            questionSetDropdown.AddOptions(new List<string>() { "New Set..." });
+            questionSetDropdown.AddOptions(new List<string>() { "-Add-" });
 
             if (!string.IsNullOrEmpty(selectedName))
             {

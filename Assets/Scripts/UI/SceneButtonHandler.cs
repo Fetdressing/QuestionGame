@@ -63,7 +63,7 @@ public class SceneButtonHandler : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(prompt))
             {
-                ConfirmScreen.Create().Set(prompt, OnConfirm, confirmText: "Main Menu");
+                ConfirmScreen.Create().Set(prompt, OnConfirm, confirmText: "Confirm");
             }
             else
             {
