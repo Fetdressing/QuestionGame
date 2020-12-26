@@ -32,7 +32,7 @@ namespace Play
             questionList.Clear();
             for (int i = 0; i < SetSelection.GetSets().Count; i++)
             {
-                questionList.AddRange(SetSelection.GetSets()[i].GetQuestions());
+                questionList.AddRange(SetSelection.GetSets()[i].GetPlayQuestions());
             }
 
             DisplayNextQuestion();

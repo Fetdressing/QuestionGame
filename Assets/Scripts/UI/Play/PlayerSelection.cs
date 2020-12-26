@@ -24,6 +24,7 @@ namespace Play
         [SerializeField]
         private string[] randomNamePool;
 
+        private static List<string> lastPlayerList = new List<string>();
         private HashSet<string> activePlayers = new HashSet<string>();
         private List<string> activePlayerHexColors = new List<string>();
 
@@ -61,6 +62,15 @@ namespace Play
 
         private void OnEnable()
         {
+            // Add the ones that we had at an earlier stage of the play session.
+            for (int i = 0; i < lastPlayerList.Count; i++)
+            {
+                if (!activePlayers.Contains(lastPlayerList[i]))
+                {
+                    AddPlayer(lastPlayerList[i]);
+                }
+            }
+
             if (activePlayers.Count == 0)
             {
                 for (int i = 0; i < 2; i++)
@@ -70,6 +80,15 @@ namespace Play
             }
 
             Validate();
+        }
+
+        private void OnDisable()
+        {
+            lastPlayerList.Clear();
+            foreach (string p in activePlayers)
+            {
+                lastPlayerList.Add(p);
+            }
         }
 
         private void Validate(bool throwError = true)
@@ -87,10 +106,10 @@ namespace Play
 
         private void Awake()
         {
-            addPlayerButton.onClick.AddListener(AddPlayer);
+            addPlayerButton.onClick.AddListener(() => { AddPlayer(); });
         }
 
-        private void AddPlayer()
+        private void AddPlayer(string setName = "")
         {
             int tries = 0;
             const int maxTries = 10;
@@ -98,12 +117,21 @@ namespace Play
 
             while (tries < maxTries)
             {
-                nameToUse = GetRandomNameFromPool();
+                if (string.IsNullOrEmpty(setName))
+                {
+                    nameToUse = GetRandomNameFromPool();
+                }
+                else
+                {
+                    nameToUse = setName;
+                }
+
                 if (!activePlayers.Contains(nameToUse))
                 {
                     break;
                 }
 
+                setName = ""; // The set name was invalid, so make sure we won't try it next time.
                 tries++;
             }
 

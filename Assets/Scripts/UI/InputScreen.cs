@@ -82,7 +82,7 @@ public class InputScreen : ConfirmScreen
     /// <param name="startValue">Start text value.</param>
     /// <param name="inputType">The input type.</param>
     /// <param name="lineType">The line type.</param>
-    public virtual void Set(string infoText, int minTextLength, int maxTextLength, bool allowCancel, System.Action<string> callbackConfirm = null, TouchScreenKeyboardType keyboardType = TouchScreenKeyboardType.ASCIICapable, string startValue = "", InputField.LineType lineType = InputField.LineType.SingleLine)
+    public virtual void Set(string infoText, int minTextLength, int maxTextLength, bool allowCancel, System.Action<string> callbackConfirm = null, TouchScreenKeyboardType keyboardType = TouchScreenKeyboardType.ASCIICapable, string startValue = "", InputField.LineType lineType = InputField.LineType.SingleLine, InputField.ContentType contentType = InputField.ContentType.Standard, string promptText = "Enter Text")
     {
         this.displayText.text = infoText;
         this.startValue = startValue;
@@ -93,10 +93,11 @@ public class InputScreen : ConfirmScreen
         this.input.onValueChanged.AddListener(delegate { OnInputChange(); });
         this.input.keyboardType = keyboardType;
         this.input.colors = GetColorBlock();
-        this.input.contentType = InputField.ContentType.Standard;
+        this.input.contentType = contentType;
         this.input.lineType = lineType;
         this.input.characterLimit = maxTextLength;
         this.input.SetTextWithoutNotify(startValue);
+        this.input.placeholder.GetComponent<Text>().text = promptText;
         OnInputChange(); // Makes sure buttons and requirements text is properly enabled/disabled.
 
         this.cancelButton.gameObject.SetActive(allowCancel);

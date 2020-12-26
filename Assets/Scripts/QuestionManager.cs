@@ -7,6 +7,7 @@ using System.Linq;
 
 public class QuestionManager
 {
+    public const string emptyQuestion = "<Empty>";
     private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();
     private const string questionSetFolderName = "QuestionSets";
 
@@ -161,6 +162,22 @@ public class QuestionManager
         public List<Question> GetQuestions()
         {
             return currQuestionList;
+        }
+
+        public List<Question> GetPlayQuestions()
+        {
+            List<Question> playQuestionList = new List<Question>();
+            playQuestionList.AddRange(currQuestionList);
+
+            for (int i = playQuestionList.Count - 1; i >= 0; i--)
+            {
+                if (playQuestionList[i].value.Equals(QuestionManager.emptyQuestion))
+                {
+                    playQuestionList.RemoveAt(i);
+                }
+            }
+
+            return playQuestionList;
         }
 
         public void Add(Question question)
