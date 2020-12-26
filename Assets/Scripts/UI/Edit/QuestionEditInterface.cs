@@ -38,7 +38,7 @@ namespace Edit
             }
 
             string startValue = string.Equals(questionEditInterface.Question.value, QuestionManager.emptyQuestion) ? "" : questionEditInterface.Question.value;
-            InputScreen.Create().Set("Change question: ", 3, 50, true, (newValue) => { OnChangeQuestion(questionEditInterface, newValue); }, startValue: startValue);
+            InputScreen.Create().Set("Change question: ", 3, 70, true, (newValue) => { OnChangeQuestion(questionEditInterface, newValue); }, startValue: startValue);
         }
 
         private void OnChangeQuestion(QuestionEditInterface questionEditInterface, string newValue)
