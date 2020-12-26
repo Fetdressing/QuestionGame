@@ -8,6 +8,8 @@ using System.Linq;
 public class QuestionManager
 {
     public const string emptyQuestion = "<Empty>";
+    public static string[] defaultQuestions = new string[] { "Make a rule for X.", "Give 5 drinks to X, or 10 drinks to X.", "What did you first think of X when meeting them?" };
+
     private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();
     private const string questionSetFolderName = "QuestionSets";
 
@@ -55,18 +57,30 @@ public class QuestionManager
         return null;
     }
 
-    public static QuestionSet AddSet(string setName)
+    public static QuestionSet AddSet(string setName, string[] startQuestions = null)
     {
         string fileName = "S" + Random.Range(0, 1000000).ToString();
         if (GetSet(fileName) != null)
         {
-            return AddSet(setName); // Make sure we don't add anything of the same name.
+            return AddSet(setName, startQuestions); // Make sure we don't add anything of the same name.
         }
         else
         {
             QuestionSet questionSet = new QuestionSet(fileName);
             questionSet.SetDisplayName(setName);
-            questionSet.Add(new Question("Give 5 drinks to X or X!")); // Add a default question.
+
+            if (startQuestions != null && startQuestions.Length > 0)
+            {
+                for (int i = 0; i < startQuestions.Length; i++)
+                {
+                    questionSet.Add(new Question(startQuestions[i]));
+                }
+            }
+            else
+            {
+                questionSet.Add(new Question("Give 5 drinks to X or X!")); // Add a default question.
+            }
+            
             questionDict.Add(fileName, questionSet);
             return questionSet;
         }
@@ -117,8 +131,8 @@ public class QuestionManager
         if (nrSets == 0)
         {
             // Add a default one.
-            const string defaultName = "Default";
-            AddSet(defaultName);
+            const string defaultName = "Start Set";
+            AddSet(defaultName, defaultQuestions);
         }
     }
 
