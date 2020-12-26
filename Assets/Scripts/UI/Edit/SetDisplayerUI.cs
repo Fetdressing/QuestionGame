@@ -171,7 +171,7 @@ namespace Edit
 
         private void PromptNameChange()
         {
-            InputScreen.Create().Set("New Set Name?", 3, 15, true, callbackConfirm: OnSetNameChanged, lineType: InputField.LineType.SingleLine, startValue: currSet.GetDisplayName());
+            InputScreen.Create().Set("New Set Name?", 2, 15, true, callbackConfirm: OnSetNameChanged, lineType: InputField.LineType.SingleLine, startValue: currSet.GetDisplayName());
         }
 
         private void OnSetNameChanged(string newName)

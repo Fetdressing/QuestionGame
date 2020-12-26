@@ -36,7 +36,7 @@ namespace Play
             this.onNameChanged = onNameChanged;
             this.onRemove = onRemove;
 
-            this.nameInputButton.onClick.AddListener(delegate { InputScreen.Create().Set("What is the Name of this Player?", 3, 14, true, OnNameChanged, lineType: InputField.LineType.SingleLine, startValue: "", contentType: InputField.ContentType.Name, promptText: "Enter Name"); });
+            this.nameInputButton.onClick.AddListener(delegate { InputScreen.Create().Set("What is the Name of this Player?", 2, 14, true, OnNameChanged, lineType: InputField.LineType.SingleLine, startValue: "", contentType: InputField.ContentType.Name, promptText: "Enter Name"); });
             this.removeButton.onClick.AddListener(OnRemove);
         }
 
