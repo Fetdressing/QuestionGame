@@ -142,6 +142,61 @@ public class UIUtil : MonoBehaviour
         return false;
     }
 
+    public static bool IsStringIndexWithinRichText(string text, int index)
+    {
+        int currIndex = index;
+        while (currIndex > 0 && currIndex < text.Length)
+        {
+            if (text[currIndex] == '<')
+            {
+                return true;
+            }
+
+            currIndex++;
+        }
+
+        return false;
+    }
+
+    public static int FindIndexOutsideRichText(string text, int index)
+    {
+        int currIndex = index;
+
+        if (!IsStringIndexWithinRichText(text, currIndex))
+        {
+            return currIndex;
+        }
+
+        // Assume we are already inside rich text because we check that above.
+        while (true)
+        {
+            char currValue = text[currIndex];
+
+            if (currIndex + 1 >= text.Length) // Outside of array.
+            {
+                return currIndex;
+            }
+
+            if (text[currIndex] == '/')
+            {
+                // Found ender - check if we can find a new beginner after it.
+                while (text[currIndex] != '>')
+                {
+                    currIndex++;
+                }
+
+                if (text[currIndex + 1] != '<')
+                {
+                    // Found end!
+                    return currIndex + 1;
+                }
+            }
+
+            currIndex++;
+
+        }
+    }
+
     private static int GetIndexRound<T>(int index, List<T> list) where T : class
     {
         if (index < list.Count)

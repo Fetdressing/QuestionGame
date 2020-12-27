@@ -26,6 +26,30 @@ namespace Edit
         public void SetValue(string newValue, string displayValue)
         {
             this.question.value = newValue;
+            const int maxDisplaySize = 45;
+
+            if (displayValue.Length > maxDisplaySize)
+            {
+                int indexToSplitAt = maxDisplaySize;
+                bool isWithinRichText = UIUtil.IsStringIndexWithinRichText(displayValue, indexToSplitAt);
+
+                if (isWithinRichText)
+                {
+                    indexToSplitAt = UIUtil.FindIndexOutsideRichText(displayValue, maxDisplaySize);
+                }
+                else
+                {
+                    char currChar = displayValue[indexToSplitAt];
+                    while (currChar != ' ' && indexToSplitAt > 0) // Find closest space.
+                    {
+                        indexToSplitAt--;
+                        currChar = displayValue[indexToSplitAt];
+                    }
+                }
+
+                displayValue = displayValue.Substring(0, indexToSplitAt) + "...";
+            }
+
             this.editButton.Text = displayValue;
         }
 
