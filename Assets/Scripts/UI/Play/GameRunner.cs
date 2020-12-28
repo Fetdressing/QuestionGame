@@ -16,6 +16,9 @@ namespace Play
         private TextMeshProUGUI questionDisplayer;
 
         [SerializeField]
+        private EnableDelayedDeactivation newGameGraphics;
+
+        [SerializeField]
         private Animator animH;
         private const string showC = "show";
         private float timeNextButtonActive = 0f;
@@ -31,6 +34,8 @@ namespace Play
                     AnimateNextQuestion();
                 }
             });
+
+            newGameGraphics.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -40,6 +45,8 @@ namespace Play
 
         private void Replay()
         {
+            newGameGraphics.gameObject.SetActive(true);
+
             questionList.Clear();
             for (int i = 0; i < SetSelection.GetSets().Count; i++)
             {
