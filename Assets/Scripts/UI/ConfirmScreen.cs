@@ -21,7 +21,7 @@ public class ConfirmScreen : UIBase
         return (ConfirmScreen)UIUtil.Spawn(type);
     }
 
-    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null, bool useCancel = true, string confirmText = "Confirm", string cancelText = "Cancel")
+    public void Set(string displayText = null, System.Action confirm = null, System.Action cancel = null, bool useCancel = true, string confirmText = "Yes", string cancelText = "Cancel")
     {
         if (string.IsNullOrEmpty(displayText))
         {
