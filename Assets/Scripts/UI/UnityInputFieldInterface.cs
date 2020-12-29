@@ -16,7 +16,7 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
     /// Sound to play when clicking the object.
     /// </summary>
     [SerializeField]
-    private string onClickSound = "UI_Click";
+    private AudioManager.EffectType onClickSound = AudioManager.EffectType.Click1;
 
     /// <summary>
     /// The click force.
@@ -95,11 +95,7 @@ public class UnityInputFieldInterface : UnityEngine.UI.InputField
     /// </summary>
     protected void OnClick()
     {
-        if (string.IsNullOrEmpty(onClickSound) == false)
-        {
-            //AudioManager.Instance.Play(onClickSound, AudioManager.AudioType.Menu);
-        }
-
+        AudioManager.Play(onClickSound);
         SetTargetGraphicScale(1);
     }
 

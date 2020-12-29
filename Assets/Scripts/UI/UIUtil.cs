@@ -142,6 +142,8 @@ public class UIUtil : MonoBehaviour
         return false;
     }
 
+    #region String
+
     public static bool IsStringIndexWithinRichText(string text, int index)
     {
         int currIndex = index;
@@ -196,6 +198,8 @@ public class UIUtil : MonoBehaviour
 
         }
     }
+
+    #endregion
 
     private static int GetIndexRound<T>(int index, List<T> list) where T : class
     {
