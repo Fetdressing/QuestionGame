@@ -53,7 +53,7 @@ public class InputScreen : ConfirmScreen
     /// </summary>
     public void OnInputChange()
     {
-        this.input.text = System.Text.RegularExpressions.Regex.Replace(this.input.text, @"[^A-Za-z _/()!"".\-,:+= &#?0-9@£$€{[\]}]", "");
+        // this.input.text = System.Text.RegularExpressions.Regex.Replace(this.input.text, @"[^A-Za-z _/()!"".\-,:+= &#?0-9@£$€{[\]}]", "");
 
         bool isValid = IsValidInput(out string errorMessage);
 
