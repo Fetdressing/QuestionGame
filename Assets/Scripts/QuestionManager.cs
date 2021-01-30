@@ -8,7 +8,27 @@ using System.Linq;
 public class QuestionManager
 {
     public const string emptyQuestion = "<Empty>";
-    public static string[] defaultQuestions = new string[] { "Make a rule for X.", "Give 5 drinks to X, or 10 drinks to X.", "What did you first think of X when meeting them?" };
+    public static string[] defaultQuestions = new string[]
+    {
+        "Make a rule for X.",
+        "Give 5 drinks to X, or 10 drinks to X.",
+        "What did you first think of X when meeting them?",
+        "X, what celebrity would you like to party with?",
+        "X drink 3!",
+        "X give away 2!",
+        "X switch drink with X.",
+        "X drink 8!",
+        "X give away 5!",
+        "Give away either 5 to X or 15 to X!",
+        "X, X, X and X. Participate in a waterfall!",
+        "Out of X and X, who is the biggest workaholic?",
+        "X drink 2 or give 6 to X!",
+        "Tell X that everything is going to be okay and that you are there for them!",
+        "When did X and X meet? Everyone take a sip for each year since then - in gratitude for their friendship!",
+        "What do you think is X's guilty pleasure?",
+        "Out of X and X, who would most likely accidently walk into a wall?",
+        "On a sexy-scale 1-10, how would you rate X?"
+    };
 
     private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();
     private const string questionSetFolderName = "QuestionSets";

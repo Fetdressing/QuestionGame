@@ -15,7 +15,7 @@ public class UIUtil : MonoBehaviour
 
     [SerializeField]
     private List<Color32> playerColorList = new List<Color32>();
-    private string[] toSplitBy = new string[] { " x", " X", "x ", "X " };
+    private string[] toSplitBy = new string[] { "x", "X" /*" x", " X", "x ", "X "*/ };
 
     public enum UIType
     {
@@ -299,7 +299,7 @@ public class UIUtil : MonoBehaviour
         for (int i = 0; i < splitArray.Length; i++)
         {
             // Make sure to only add the value in the end if it actually ends with it.
-            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">X</color></b> " : "";
+            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">X</color></b>" : "";
             newString += splitArray[i] + addValue;
         }
         
@@ -337,7 +337,7 @@ public class UIUtil : MonoBehaviour
             playerIndex = Random.Range(0, validPlayerList.Count);
 
             // Make sure to only add the value in the end if it actually ends with it.
-            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + validPlayerList[playerIndex].Item2 + ">" + validPlayerList[playerIndex].Item1 + "</color></b> " : "";
+            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? "<b><color=#" + validPlayerList[playerIndex].Item2 + ">" + validPlayerList[playerIndex].Item1 + "</color></b>" : "";
             newString += splitArray[i] + addValue;
 
             validPlayerList.RemoveAt(playerIndex); // Remmove the name used so it won't be used again at first.
