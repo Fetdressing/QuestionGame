@@ -45,6 +45,11 @@ public class UnityButtonInterface : UnityEngine.UI.Button
 
     public string Text
     {
+        get
+        {
+            return this.defaultText == null ? "" : this.defaultText.text;
+        }
+
         set
         {
             if (this.defaultText != null)

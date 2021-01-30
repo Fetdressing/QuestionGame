@@ -16,15 +16,39 @@ namespace Edit
         [SerializeField]
         private Button addQuestionButton;
 
+        [SerializeField]
+        private ToggleInterface hideQuestionsToggle;
+
         [Header("Prefabs")]
         [SerializeField]
         private QuestionEditInterface questionPrefab;
 
         private QuestionManager.QuestionSet currSet;
 
+        private static List<QuestionEditInterface> currentInterfaceList = new List<QuestionEditInterface>();
+
+        private static bool showQuestionTexts = true;
+        public static bool ShowQuestionTexts
+        {
+            get
+            {
+                return showQuestionTexts;
+            }
+
+            set
+            {
+                showQuestionTexts = value;
+                for (int i = 0; i < currentInterfaceList.Count; i++)
+                {
+                    currentInterfaceList[i].SetVisibleText(value);
+                }
+            }
+        }
+
         private void Awake()
         {
             addQuestionButton.onClick.AddListener(() => { AddQuestion(); });
+            hideQuestionsToggle.Set(ShowQuestionTexts, (newValue) => { ShowQuestionTexts = newValue; });
         }
 
         public void SetCurrentSet(QuestionManager.QuestionSet questionSet)
@@ -81,9 +105,11 @@ namespace Edit
         private void AddQuestionGraphics(QuestionManager.Question question, float delayedActivasion = -1f)
         {
             GameObject ob = Instantiate(questionPrefab.gameObject);
-            ob.GetComponent<QuestionEditInterface>().Set(question, RemoveQuestion);
+            QuestionEditInterface eInterface = ob.GetComponent<QuestionEditInterface>();
+            eInterface.Set(question, RemoveQuestion);
             ob.transform.SetParent(questionRoot);
             ob.transform.localScale = Vector3.one;
+            currentInterfaceList.Add(eInterface);
 
             if (delayedActivasion > 0f)
             {
@@ -102,6 +128,7 @@ namespace Edit
 
         public void ClearQuestionGraphics()
         {
+            currentInterfaceList.Clear();
             foreach (Transform t in questionRoot.GetComponentsInChildren<Transform>())
             {
                 if (t != questionRoot)
