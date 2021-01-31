@@ -187,6 +187,11 @@ public class UIUtil : MonoBehaviour
                     currIndex++;
                 }
 
+                if (currIndex + 1 >= text.Length) // Outside of array.
+                {
+                    return currIndex;
+                }
+
                 if (text[currIndex + 1] != '<')
                 {
                     // Found end!
@@ -297,10 +302,18 @@ public class UIUtil : MonoBehaviour
         bool endsWithSplitValue = StringEndsWithAny(splitArray[splitArray.Length - 1], Instance.toSplitBy);
 
         for (int i = 0; i < splitArray.Length; i++)
-        {
-            // Make sure to only add the value in the end if it actually ends with it.
-            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? " <b><color=#" + GetPlayerColorHex(i) + ">X</color></b>" : "";
-            newString += splitArray[i] + addValue;
+        {            
+            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], splitArray[i + 1].Length - 1)))
+            {
+                // The X was inside a word, keep the X.
+                newString += splitArray[i] + "x";
+            }
+            else
+            {
+                // Make sure to only add the value in the end if it actually ends with it.
+                string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? "<b><color=#" + GetPlayerColorHex(i) + ">X</color></b>" : "";
+                newString += splitArray[i] + addValue;
+            }
         }
         
         return newString;
@@ -329,18 +342,26 @@ public class UIUtil : MonoBehaviour
         int playerIndex = 0;
         for (int i = 0; i < splitArray.Length; i++)
         {
-            if (validPlayerList.Count == 0)
+            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], splitArray[i + 1].Length - 1)))
             {
-                validPlayerList.AddRange(playerList); // List emptied -> refill it.
+                // The X was inside a word, keep the X.
+                newString += splitArray[i] + "x";
             }
+            else
+            {
+                if (validPlayerList.Count == 0)
+                {
+                    validPlayerList.AddRange(playerList); // List emptied -> refill it.
+                }
 
-            playerIndex = Random.Range(0, validPlayerList.Count);
+                playerIndex = Random.Range(0, validPlayerList.Count);
 
-            // Make sure to only add the value in the end if it actually ends with it.
-            string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? "<b><color=#" + validPlayerList[playerIndex].Item2 + ">" + validPlayerList[playerIndex].Item1 + "</color></b>" : "";
-            newString += splitArray[i] + addValue;
+                // Make sure to only add the value in the end if it actually ends with it.
+                string addValue = i < splitArray.Length - 1 || endsWithSplitValue ? "<b><color=#" + validPlayerList[playerIndex].Item2 + ">" + validPlayerList[playerIndex].Item1 + "</color></b>" : "";
+                newString += splitArray[i] + addValue;
 
-            validPlayerList.RemoveAt(playerIndex); // Remmove the name used so it won't be used again at first.
+                validPlayerList.RemoveAt(playerIndex); // Remmove the name used so it won't be used again at first.
+            }            
         }
 
         return newString;
@@ -370,6 +391,31 @@ public class UIUtil : MonoBehaviour
         }
 
         return false;
+    }
+
+    private static bool HasCharNeighbourLetter(string text, int charIndex)
+    {
+        if (charIndex != 0 && System.Char.IsLetter(text[charIndex - 1]))
+        {
+            return true;
+        }
+
+        if (charIndex + 1 < text.Length && System.Char.IsLetter(text[charIndex + 1]))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsCharLetter(string text, int charIndex)
+    {
+        if (charIndex >= text.Length || charIndex < 0)
+        {
+            return false;
+        }
+
+        return System.Char.IsLetter(text[charIndex]);
     }
 
     #endregion

@@ -13,11 +13,22 @@ public class AudioManager : MonoBehaviour
     private AudioDict audioDict;
 
     [SerializeField]
+    private MusicDict musicDict;
+
+    [SerializeField]
     private AudioSource effectSource;
+
+    [SerializeField]
+    private AudioSource musicSource;
 
     public enum EffectType
     {
         Click1
+    }
+
+    public enum MusicType
+    {
+        Chill1
     }
 
     private static AudioManager Instance
@@ -50,6 +61,28 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public static bool MusicOn
+    {
+        get
+        {
+            int intValue = PlayerPrefs.GetInt("musicOn", 1);
+            bool value = intValue == 1 ? true : false;
+            return value;
+        }
+
+        set
+        {
+            int setValue = value ? 1 : 0;
+            PlayerPrefs.SetInt("musicOn", setValue);
+            Instance.musicSource.enabled = value;
+
+            if (!Instance.musicSource.isPlaying)
+            {
+                Instance.musicSource.Play();
+            }
+        }
+    }
+
     public static void Play(EffectType effectType)
     {
         Clip clip;
@@ -60,18 +93,43 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public static void Play(MusicType musicType)
+    {
+        Clip clip;
+        if (Instance.musicDict.TryGetValue(musicType, out clip))
+        {
+            if (Instance.musicSource.clip != null && Instance.musicSource.clip.name == clip.aClip.name && instance.musicSource.isPlaying)
+            {
+                return;
+            }
+
+            Instance.musicSource.Stop();
+            Instance.musicSource.clip = clip.aClip;
+            Instance.musicSource.volume = clip.volume;
+        }
+    }
+
     private void Awake()
     {
+        Play(MusicType.Chill1);
         EffectsOn = EffectsOn; // Trigger sources.
+        MusicOn = MusicOn;
     }
 
     private void OnEnable()
     {
+        Play(MusicType.Chill1);
         EffectsOn = EffectsOn; // Trigger sources.
+        MusicOn = MusicOn;
     }
 
     [System.Serializable]
     private class AudioDict : SerializableDictionaryBase<EffectType, Clip>
+    {
+    }
+
+    [System.Serializable]
+    private class MusicDict : SerializableDictionaryBase<MusicType, Clip>
     {
     }
 

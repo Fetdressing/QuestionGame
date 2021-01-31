@@ -114,7 +114,13 @@ namespace Edit
             if (delayedActivasion > 0f)
             {
                 ob.SetActive(false);
-                UIUtil.InvokeDelayed(() => { ob.SetActive(true); }, delayedActivasion);
+                UIUtil.InvokeDelayed(() => 
+                {
+                    if (ob != null)
+                    {
+                        ob.SetActive(true);
+                    }
+                }, delayedActivasion);
             }
         }
 

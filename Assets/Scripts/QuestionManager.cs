@@ -10,7 +10,7 @@ public class QuestionManager
     public const string emptyQuestion = "<Empty>";
     public static string[] defaultQuestions = new string[]
     {
-        "Make a rule for X.",
+        "Make a rule for X. Take a sip everytime it's broken!",
         "Give 5 drinks to X, or 10 drinks to X.",
         "What did you first think of X when meeting them?",
         "X, what celebrity would you like to party with?",
@@ -27,7 +27,10 @@ public class QuestionManager
         "When did X and X meet? Everyone take a sip for each year since then - in gratitude for their friendship!",
         "What do you think is X's guilty pleasure?",
         "Out of X and X, who would most likely accidently walk into a wall?",
-        "On a sexy-scale 1-10, how would you rate X?"
+        "On a sexy-scale 1-10, how would you rate X?",
+        "Would you rather have sex with X in secret or not have sex with that person, but everyone thinks you did?",
+        "Switch seats with X or X!",
+        "Decide who you would fuck, marry, kill! (X, X, X)"
     };
 
     private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();

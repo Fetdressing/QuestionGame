@@ -9,6 +9,13 @@ public class EnableDelayedDeactivation : UIBase
 
     private void OnEnable()
     {
-        UIUtil.InvokeDelayed(() => { this.gameObject.SetActive(false); }, delayedDisable);
+        UIUtil.InvokeDelayed(() => 
+        {
+            if (this != null)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }, 
+        delayedDisable);
     }
 }
