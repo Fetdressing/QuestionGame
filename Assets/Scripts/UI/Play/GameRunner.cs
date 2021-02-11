@@ -53,7 +53,7 @@ namespace Play
                 questionList.AddRange(SetSelection.GetSets()[i].GetPlayQuestions());
             }
 
-            AnimateNextQuestion();
+            UIUtil.InvokeDelayed(AnimateNextQuestion, 0.75f);
         }
 
         private void AnimateNextQuestion()

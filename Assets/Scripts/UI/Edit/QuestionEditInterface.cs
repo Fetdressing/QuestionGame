@@ -41,7 +41,7 @@ namespace Edit
             this.editButton.Text = displayValue;
         }
 
-        private void PromptChangeQuestion(QuestionEditInterface questionEditInterface)
+        public void PromptChangeQuestion(QuestionEditInterface questionEditInterface)
         {
             if (questionEditInterface == null)
             {
@@ -69,29 +69,14 @@ namespace Edit
 
             if (visibleText)
             {
-                displayValue = UIUtil.ToColoredNamesString(value);
-                const int maxDisplaySize = 45;
+                string unchangedDisplayValue = UIUtil.ToColoredNamesString(value);
+                displayValue = unchangedDisplayValue;
+                const int maxDisplaySize = 18;
 
                 if (displayValue.Length > maxDisplaySize)
                 {
-                    int indexToSplitAt = maxDisplaySize;
-                    bool isWithinRichText = UIUtil.IsStringIndexWithinRichText(displayValue, indexToSplitAt);
-
-                    if (isWithinRichText)
-                    {
-                        indexToSplitAt = UIUtil.FindIndexOutsideRichText(displayValue, maxDisplaySize);
-                    }
-                    else
-                    {
-                        char currChar = displayValue[indexToSplitAt];
-                        while (currChar != ' ' && indexToSplitAt > 0) // Find closest space.
-                        {
-                            indexToSplitAt--;
-                            currChar = displayValue[indexToSplitAt];
-                        }
-                    }
-
-                    displayValue = displayValue.Substring(0, indexToSplitAt) + "...";
+                    displayValue = UIUtil.LimitStringSize(displayValue, maxDisplaySize);
+                    displayValue = displayValue + (unchangedDisplayValue.Length != displayValue.Length ? "..." : "");
                 }
             }
             else

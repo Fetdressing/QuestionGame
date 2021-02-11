@@ -192,16 +192,54 @@ public class UIUtil : MonoBehaviour
                     return currIndex;
                 }
 
-                if (text[currIndex + 1] != '<')
+                int foundCharIndex;
+                if (!CheckForChar('<', text, currIndex, 8, out foundCharIndex))
                 {
-                    // Found end!
-                    return currIndex + 1;
+                    return currIndex;
+                    //if (text[currIndex + 1] != '<')
+                    //{
+                    //    // Found end!
+                    //    return currIndex + 1;
+                    //}
                 }
+
+                currIndex = foundCharIndex;
             }
 
             currIndex++;
 
         }
+    }
+
+    public static string LimitStringSize(string text, int maxSize)
+    {
+        int currCount = 0;
+
+        while (currCount < text.Length && (currCount < maxSize || text[currCount] == '<'))
+        {
+            if (text[currCount] == '<')
+            {
+                while (text[currCount] != '>')
+                {
+                    currCount++;
+                    maxSize++;
+                }
+
+                currCount++;
+                maxSize++;
+            }
+            else if (text[currCount] == ' ')
+            {
+                currCount++;
+                maxSize++;
+            }
+            else
+            {
+                currCount++;
+            }
+        }
+
+        return text.Substring(0, currCount);
     }
 
     #endregion
@@ -230,6 +268,24 @@ public class UIUtil : MonoBehaviour
             int roundIndex = index % count;
             return roundIndex;
         }
+    }
+
+    private static bool CheckForChar(char c, string text, int start, int range, out int foundIndex)
+    {
+        foundIndex = -1;
+        int currentIndex = start;
+        while (currentIndex < text.Length && (currentIndex - start) < range)
+        {
+            if (text[currentIndex] == c)
+            {
+                foundIndex = currentIndex;
+                return true;
+            }
+
+            currentIndex++;
+        }
+
+        return false;
     }
 
     #region Coroutine

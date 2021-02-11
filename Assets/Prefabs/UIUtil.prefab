@@ -228,7 +228,7 @@ MonoBehaviour:
     _keys: 00000000
     _values:
     - aClip: {fileID: 8300000, guid: 320699531fae2f24daba6df8dca6f303, type: 3}
-      volume: 0.186
+      volume: 0.451
       pitchRange: 0
   effectSource: {fileID: 5814166570932071804}
   musicSource: {fileID: 3932579374363622367}

@@ -47,7 +47,7 @@ namespace Edit
 
         private void Awake()
         {
-            addQuestionButton.onClick.AddListener(() => { AddQuestion(); });
+            addQuestionButton.onClick.AddListener(() => { AddQuestion(true); });
             hideQuestionsToggle.Set(ShowQuestionTexts, (newValue) => { ShowQuestionTexts = newValue; });
         }
 
@@ -65,7 +65,7 @@ namespace Edit
             }
         }
 
-        private void AddQuestion()
+        private void AddQuestion(bool manuallyAdded = false)
         {
             if (currSet == null)
             {
@@ -75,7 +75,7 @@ namespace Edit
 
             QuestionManager.Question newQuestion = new QuestionManager.Question(QuestionManager.emptyQuestion);
             currSet.Add(newQuestion);
-            AddQuestionGraphics(newQuestion);
+            AddQuestionGraphics(newQuestion, manuallyAdded: manuallyAdded);
         }
 
         private void RemoveQuestion(QuestionEditInterface questionUI)
@@ -102,7 +102,7 @@ namespace Edit
 
         #region Graphics
 
-        private void AddQuestionGraphics(QuestionManager.Question question, float delayedActivasion = -1f)
+        private void AddQuestionGraphics(QuestionManager.Question question, float delayedActivasion = -1f, bool manuallyAdded = false)
         {
             GameObject ob = Instantiate(questionPrefab.gameObject);
             QuestionEditInterface eInterface = ob.GetComponent<QuestionEditInterface>();
@@ -121,6 +121,11 @@ namespace Edit
                         ob.SetActive(true);
                     }
                 }, delayedActivasion);
+            }
+
+            if (manuallyAdded)
+            {
+                eInterface.PromptChangeQuestion(eInterface);
             }
         }
 
