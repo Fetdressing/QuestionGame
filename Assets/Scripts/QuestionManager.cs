@@ -23,14 +23,20 @@ public class QuestionManager
         "X, X, X and X. Participate in a waterfall!",
         "Out of X and X, who is the biggest workaholic?",
         "X drink 2 or give 6 to X!",
-        "Tell X that everything is going to be okay and that you are there for them!",
-        "When did X and X meet? Everyone take a sip for each year since then - in gratitude for their friendship!",
+        "X, X and X each perform a party trick",
+        "When did X and X meet? Everyone take a sip for each year since then - in gratitude of their friendship!",
         "What do you think is X's guilty pleasure?",
         "Out of X and X, who would most likely accidently walk into a wall?",
-        "On a sexy-scale 1-10, how would you rate X?",
-        "Would you rather have sex with X in secret or not have sex with that person, but everyone thinks you did?",
+        "On a scale 1-10, how handsome is X?",
         "Switch seats with X or X!",
-        "Decide who you would fuck, marry, kill! (X, X, X)"
+        "Decide who is the smartest, best looking and nicest person out of X, X and X!",
+        "Have X take a sip without letting them know that the game says so.",
+        "Who is biggest hooligan out of X, X or X?",
+        "Who do you think has dated the most persons out of X or X? Take 3 sips if you guess wrong.",
+        "Never have I ever fallen asleep on the toilet floor.",
+        "Never have I ever gone to a party that I wasn't invited to.",
+        "Out of X and X, who do you think will be homeless? Let them know you always have a couch available!",
+        "Who is strongest out of X and X? Make everyone bet sips for who is going to win in arm wrestling!"
     };
 
     private static Dictionary<string, QuestionSet> questionDict = new Dictionary<string, QuestionSet>();
