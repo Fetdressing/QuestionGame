@@ -359,10 +359,11 @@ public class UIUtil : MonoBehaviour
 
         for (int i = 0; i < splitArray.Length; i++)
         {            
-            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], splitArray[i + 1].Length - 1)))
+            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], 0)))
             {
                 // The X was inside a word, keep the X.
-                newString += splitArray[i] + "x";
+                bool isNotLastOrEndsWithValue = i != splitArray.Length - 1 || endsWithSplitValue;
+                newString += splitArray[i] + (isNotLastOrEndsWithValue ? "x" : "");
             }
             else
             {
@@ -398,10 +399,11 @@ public class UIUtil : MonoBehaviour
         int playerIndex = 0;
         for (int i = 0; i < splitArray.Length; i++)
         {
-            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], splitArray[i + 1].Length - 1)))
+            if (IsCharLetter(splitArray[i], splitArray[i].Length - 1) || (i + 1 < splitArray.Length && IsCharLetter(splitArray[i + 1], 0)))
             {
                 // The X was inside a word, keep the X.
-                newString += splitArray[i] + "x";
+                bool isNotLastOrEndsWithValue = i != splitArray.Length - 1 || endsWithSplitValue;
+                newString += splitArray[i] + (isNotLastOrEndsWithValue ? "x" : "");
             }
             else
             {
