@@ -308,15 +308,25 @@ MonoBehaviour:
     - {fileID: 7416351137455097262, guid: 0d7aba84fb9c9b741bf5cf1f4a5b5394, type: 3}
   playerColorList:
   - serializedVersion: 2
-    rgba: 4293132032
+    rgba: 4294948608
   - serializedVersion: 2
     rgba: 4278229503
   - serializedVersion: 2
     rgba: 4281860351
   - serializedVersion: 2
-    rgba: 4278255382
+    rgba: 4278247956
   - serializedVersion: 2
     rgba: 4294902012
+  - serializedVersion: 2
+    rgba: 4286989055
+  - serializedVersion: 2
+    rgba: 4282231552
+  - serializedVersion: 2
+    rgba: 4278211327
+  - serializedVersion: 2
+    rgba: 4288794368
+  - serializedVersion: 2
+    rgba: 4294901858
 --- !u!1 &8167509547648958595
 GameObject:
   m_ObjectHideFlags: 0
